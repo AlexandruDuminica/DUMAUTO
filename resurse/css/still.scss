@@ -1,0 +1,5 @@
+@for $i from 1 through 3 {
+    .bar:nth-child(#{$i}) {
+        animation-delay: #{$i * 300}ms;
+    }
+}
