@@ -1,0 +1,31 @@
+{
+    "cale_baza": "/resurse/imagini/erori/",
+    "eroare_default": {
+        "titlu": "Eroare neprevăzută",
+        "text": "Ceva nu a mers bine. Reveniți curând.",
+        "imagine": "eroare_default.jpg"
+    },
+    "info_erori": [
+        {
+            "identificator": 400,
+            "status": true,
+            "titlu": "Cerere Invalidă",
+            "text": "Nu puteți accesa direct fișierele șablon .ejs.",
+            "imagine": "400.jpg"
+        },
+        {
+            "identificator": 403,
+            "status": true,
+            "titlu": "Acces Interzis",
+            "text": "Nu aveți dreptul să vedeți conținutul acestui folder.",
+            "imagine": "403.jpg"
+        },
+        {
+            "identificator": 404,
+            "status": true,
+            "titlu": "Pagină negăsită",
+            "text": "Mașina sau pagina căutată a ieșit din stoc.",
+            "imagine": "404.jpg"
+        }
+    ]
+}

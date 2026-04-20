@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <title>Eroare - DUM AUTO</title>
+    <%- include('../fragmente/head') %>
+    <style>
+        .error-container { text-align: center; margin: 3rem auto; padding: 2rem; background: #fff; border-radius: 10px; max-width: 600px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        .error-container img { max-width: 100%; border-radius: 10px; margin-top: 1.5rem; }
+        .error-container h1 { color: #DC2626; }
+    </style>
+</head>
+<body>
+    <%- include('../fragmente/header') %>
+    
+    <main>
+        <div class="error-container">
+            <h1><%= err.titlu %></h1>
+            <p><%= err.text %></p>
+            <img src="<%= err.imagine %>" alt="Imagine eroare">
+        </div>
+    </main>
+
+    <%- include('../fragmente/footer') %>
+</body>
+</html>
