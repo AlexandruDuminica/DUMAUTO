@@ -1,0 +1,16 @@
+{
+  "cale_galerie": "imagini/galerie",
+  "imagini": [
+    { "cale_relativa": "img1.jpg", "nume": "Sedan Premium", "descriere": "Vedere frontală", "timp": "zi" },
+    { "cale_relativa": "img2.jpg", "nume": "SUV Compact", "descriere": "Test drive", "timp": "zi" },
+    { "cale_relativa": "img3.jpg", "nume": "Hatchback", "descriere": "Design urban", "timp": "zi" },
+    { "cale_relativa": "img4.jpg", "nume": "Interior Piele", "descriere": "Detalii premium", "timp": "zi" },
+    { "cale_relativa": "img5.jpg", "nume": "Bord Digital", "descriere": "Tehnologie", "timp": "zi" },
+    { "cale_relativa": "img6.jpg", "nume": "Motorizare", "descriere": "Performanță", "timp": "zi" },
+    { "cale_relativa": "img7.jpg", "nume": "Faruri LED", "descriere": "Iluminare nocturnă", "timp": "noapte" },
+    { "cale_relativa": "img8.jpg", "nume": "Stopuri", "descriere": "Design nocturn", "timp": "noapte" },
+    { "cale_relativa": "img9.jpg", "nume": "Ambianță", "descriere": "Lumini interioare", "timp": "noapte" },
+    { "cale_relativa": "img10.jpg", "nume": "Răsărit", "descriere": "Mașina la răsărit", "timp": "dimineata" },
+    { "cale_relativa": "img11.jpg", "nume": "Ceață", "descriere": "Drum matinal", "timp": "dimineata" }
+  ]
+}

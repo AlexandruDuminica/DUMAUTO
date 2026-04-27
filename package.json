@@ -1,21 +1,12 @@
 {
-  "name": "proiect",
+  "name": "dum-auto",
   "version": "1.0.0",
-  "description": "",
   "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/AlexandruDuminica/DUMAUTO.git"
-  },
-  "keywords": ["auto,dealer,shop,masini,dumauto,dum,auto,cardealer"],
-  "author": "Duminică Dănuț-Alexandru",
-  "license": "ISC",
-  "type": "commonjs",
-  "bugs": {
-    "url": "https://github.com/AlexandruDuminica/DUMAUTO/issues"
-  },
-  "homepage": "https://github.com/AlexandruDuminica/DUMAUTO#readme"
+  "dependencies": {
+    "bootstrap": "^5.3.0",
+    "ejs": "^3.1.9",
+    "express": "^4.18.2",
+    "sass": "^1.62.1",
+    "sharp": "^0.32.1"
+  }
 }

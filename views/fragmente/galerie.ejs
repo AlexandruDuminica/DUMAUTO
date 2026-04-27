@@ -1,0 +1,17 @@
+<div class="galerie-container">
+    <% if (typeof galerie !== 'undefined' && galerie.length > 0) { %>
+        <% galerie.forEach((img, i) => { 
+            let litera = String.fromCharCode(65 + i); 
+        %>
+        <figure class="galerie-item">
+            <picture>
+                <source media="(min-width: 1000px)" srcset="<%= img.cale_mare %>">
+                <img src="<%= img.cale_mica %>" alt="<%= img.nume %>" title="<%= img.timp %>">
+            </picture>
+            <figcaption><%= litera %>. <%= img.descriere %></figcaption>
+        </figure>
+        <% }) %>
+    <% } else { %>
+        <p style="text-align: center; color: red;">Galeria este în curs de actualizare. Momentan nu există imagini disponibile.</p>
+    <% } %>
+</div>
