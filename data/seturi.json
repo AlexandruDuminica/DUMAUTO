@@ -1,0 +1,7 @@
+[
+  {"id":1,"nume":"Set Familie","descriere":"Ideal pentru familii","produse":[2,7,12]},
+  {"id":2,"nume":"Set City","descriere":"Eficient pentru oras","produse":[1,6,13]},
+  {"id":3,"nume":"Set OffRoad","descriere":"SUV si accesorii","produse":[3,8,9]},
+  {"id":4,"nume":"Set Sport","descriere":"Performanta maxima","produse":[4,10]},
+  {"id":5,"nume":"Set Electric","descriere":"Toate electrice","produse":[5,11]}
+]

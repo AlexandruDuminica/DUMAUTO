@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <title>Produse - DUM AUTO</title>
+    <meta charset="utf-8">
+<meta name="author" content="Duminică Dănuț-Alexandru">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/png" href="/resurse/imagini/favicon/favicon-96x96.png" sizes="96x96">
+<link rel="icon" type="image/svg+xml" href="/resurse/imagini/favicon/favicon.svg">
+<link rel="shortcut icon" href="/resurse/imagini/favicon/favicon.ico">
+<link rel="apple-touch-icon" sizes="180x180" href="/resurse/imagini/favicon/apple-touch-icon.png">
+<link rel="manifest" href="/resurse/imagini/favicon/site.webmanifest">
+<meta name="msapplication-TileColor" content="#ffffff">
+
+<link rel="stylesheet" href="/resurse/css/custom.css">
+<link rel="stylesheet" href="/resurse/css/stil.css">
+git log --oneline
+
+    <link rel="stylesheet" href="/resurse/css/produse.css">
+    <style>/* minimal layout adjustments if produse.css missing */
+    </style>
+</head>
+<body id="top">
+    <header>
+    <hgroup>
+        <h1>DUM AUTO</h1>
+        <h2>Experiența achiziționării unui autoturism din confortul casei tale.</h2>
+    </hgroup>
+    <img src="/resurse/imagini/logo.png" alt="Logo DumAuto">
+    <input type="checkbox" id="menu-toggle">
+    <label for="menu-toggle" id="hamburger-menu">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+    </label>
+    <nav>
+        <ul>
+            <li>
+                <a href="/">Acasă</a>
+                <ul class="submenu">
+                    <li><a href="/#zona1">Despre Conceptul Nostru</a></li>
+                    <li><a href="/#zona8">Modele și Oferte</a></li>
+                </ul>
+            </li>
+            <li><a href="/despre">Istoric și Descriere (Nou)</a></li>
+            <li><a href="/catalog">Catalog și Configurator</a></li>
+            <li><a href="/service">Garanție și Service</a></li>
+            <li>
+                <a href="/produse">Produse</a>
+                <ul class="submenu">
+                    <li><a href="/produse">Toate</a></li>
+                    
+                        
+                            <li><a href="/produse?categ=compact">compact</a></li>
+                        
+                            <li><a href="/produse?categ=sedan">sedan</a></li>
+                        
+                            <li><a href="/produse?categ=suv">suv</a></li>
+                        
+                            <li><a href="/produse?categ=coupe">coupe</a></li>
+                        
+                            <li><a href="/produse?categ=electric">electric</a></li>
+                        
+                            <li><a href="/produse?categ=van">van</a></li>
+                        
+                    
+                </ul>
+            </li>
+        </ul>
+    </nav>
+</header>
+
+    <main class="container-produse">
+        <h2>Produse</h2>
+
+        <section id="filtre-produs">
+            <div class="filtre-row">
+                <label>Nume: <input type="text" id="filtru-nume" placeholder="Cauta dupa nume"></label>
+                <label>Pret: <span id="min-pret">0</span>
+                    <input type="range" id="filtru-pret" min="0" max="100000" value="100000">
+                    <span id="max-pret">100000</span>
+                </label>
+                <label>Subcategorie: <input list="datalist-sub" id="filtru-sub"></label>
+                <datalist id="datalist-sub">
+                    
+                        <option value="benzina"></option>
+                    
+                        <option value="diesel"></option>
+                    
+                        <option value="electric"></option>
+                    
+                        <option value="hibrid"></option>
+                    
+                </datalist>
+                <div class="radio-group">
+                    <span> Culoare: </span>
+                    <label><input type="radio" name="culoare" value="toate" checked> Toate</label>
+                    
+                        <label><input type="radio" name="culoare" value="Rosu"> Rosu</label>
+                    
+                        <label><input type="radio" name="culoare" value="Negru"> Negru</label>
+                    
+                        <label><input type="radio" name="culoare" value="Albastru"> Albastru</label>
+                    
+                        <label><input type="radio" name="culoare" value="Gri"> Gri</label>
+                    
+                        <label><input type="radio" name="culoare" value="Alb"> Alb</label>
+                    
+                        <label><input type="radio" name="culoare" value="Verde"> Verde</label>
+                    
+                        <label><input type="radio" name="culoare" value="Argintiu"> Argintiu</label>
+                    
+                        <label><input type="radio" name="culoare" value="Galben"> Galben</label>
+                    
+                        <label><input type="radio" name="culoare" value="Portocaliu"> Portocaliu</label>
+                    
+                </div>
+                <label><input type="checkbox" id="filtru-discount"> afișează doar cu discount pe baza criteriului preț &gt; 30000</label>
+                <label>Descriere: <textarea id="filtru-desc" rows="1"></textarea></label>
+                <label>Luni (select multiplu): <select id="filtru-luni" multiple size="4">
+                    
+                        <option value="1" selected>Ianuarie</option>
+                    
+                        <option value="2" selected>Februarie</option>
+                    
+                        <option value="3" selected>Martie</option>
+                    
+                        <option value="4" selected>Aprilie</option>
+                    
+                        <option value="5" selected>Mai</option>
+                    
+                        <option value="6" selected>Iunie</option>
+                    
+                        <option value="7" selected>Iulie</option>
+                    
+                        <option value="8" selected>August</option>
+                    
+                        <option value="9" selected>Septembrie</option>
+                    
+                        <option value="10" selected>Octombrie</option>
+                    
+                        <option value="11" selected>Noiembrie</option>
+                    
+                        <option value="12" selected>Decembrie</option>
+                    
+                </select></label>
+            </div>
+
+            <div class="butons-row">
+                <button id="btn-filtreaza">filtreaza</button>
+                <button id="btn-sort-asc">sorteaza asc</button>
+                <button id="btn-sort-desc">sorteaza desc</button>
+                <button id="btn-calc">calculeaza (suma preturi)</button>
+                <button id="btn-reset">reset</button>
+            </div>
+        </section>
+
+        <section id="lista-produse" class="grid-prod">
+            
+                <article id="produs_1" class="prod compact">
+                    <h3><a href="/produs/1">Compacta A1</a></h3>
+                    <div class="col-1">
+                        <img src="/resurse/imagini/galerie/car1.jpg" alt="Compacta A1"/>
+                        <div class="meta"><span class="categ">compact</span> - <span class="pret">13500 EUR</span></div>
+                    </div>
+                    <div class="col-2">
+                        <details>
+                            <summary>Specificații</summary>
+                            <ul>
+                                <li><strong>Subcategorie:</strong> <i>benzina</i></li>
+                                <li><strong>Caracteristici multiple:</strong> <i>ABS,Airbag,Bluetooth</i></li>
+                                <li><strong>Putere (CP):</strong> <i>95</i></li>
+                                <li><strong>Data adaugare:</strong> <i><time>15-Martie-2023 (Miercuri)</time></i></li>
+                                <li><strong>In stoc:</strong> <i>Da</i></li>
+                                <li><strong>Culoare:</strong> <i>Rosu</i></li>
+                            </ul>
+                        </details>
+                        <p class="descriere">Model compact, consum redus, ideal pentru oras.</p>
+                    </div>
+                </article>
+            
+                <article id="produs_2" class="prod sedan">
+                    <h3><a href="/produs/2">Sedan B2</a></h3>
+                    <div class="col-1">
+                        <img src="/resurse/imagini/galerie/car2.jpg" alt="Sedan B2"/>
+                        <div class="meta"><span class="categ">sedan</span> - <span class="pret">22500 EUR</span></div>
+                    </div>
+                    <div class="col-2">
+                        <details>
+                            <summary>Specificații</summary>
+                            <ul>
+                                <li><strong>Subcategorie:</strong> <i>diesel</i></li>
+                                <li><strong>Caracteristici multiple:</strong> <i>Clima,ParkingAssist,Tempomat</i></li>
+                                <li><strong>Putere (CP):</strong> <i>150</i></li>
+                                <li><strong>Data adaugare:</strong> <i><time>10-Ianuarie-2024 (Miercuri)</time></i></li>
+                                <li><strong>In stoc:</strong> <i>Da</i></li>
+                                <li><strong>Culoare:</strong> <i>Negru</i></li>
+                            </ul>
+                        </details>
+                        <p class="descriere">Sedan confortabil pentru familii mici.</p>
+                    </div>
+                </article>
+            
+                <article id="produs_3" class="prod suv">
+                    <h3><a href="/produs/3">SUV X3</a></h3>
+                    <div class="col-1">
+                        <img src="/resurse/imagini/galerie/car3.jpg" alt="SUV X3"/>
+                        <div class="meta"><span class="categ">suv</span> - <span class="pret">34500 EUR</span></div>
+                    </div>
+                    <div class="col-2">
+                        <details>
+                            <summary>Specificații</summary>
+                            <ul>
+                                <li><strong>Subcategorie:</strong> <i>benzina</i></li>
+                                <li><strong>Caracteristici multiple:</strong> <i>4x4,Panorama,Camera</i></li>
+                                <li><strong>Putere (CP):</strong> <i>190</i></li>
+                                <li><strong>Data adaugare:</strong> <i><time>5-Noiembrie-2022 (Sambata)</time></i></li>
+                                <li><strong>In stoc:</strong> <i>Nu</i></li>
+                                <li><strong>Culoare:</strong> <i>Albastru</i></li>
+                            </ul>
+                        </details>
+                        <p class="descriere">SUV robust, ideal pentru drumuri lungi.</p>
+                    </div>
+                </article>
+            
+                <article id="produs_4" class="prod coupe">
+                    <h3><a href="/produs/4">Coupe R</a></h3>
+                    <div class="col-1">
+                        <img src="/resurse/imagini/galerie/car4.jpg" alt="Coupe R"/>
+                        <div class="meta"><span class="categ">coupe</span> - <span class="pret">41200 EUR</span></div>
+                    </div>
+                    <div class="col-2">
+                        <details>
+                            <summary>Specificații</summary>
+                            <ul>
+                                <li><strong>Subcategorie:</strong> <i>benzina</i></li>
+                                <li><strong>Caracteristici multiple:</strong> <i>Spoiler,InteriorPiele,FaruriLED</i></li>
+                                <li><strong>Putere (CP):</strong> <i>260</i></li>
+                                <li><strong>Data adaugare:</strong> <i><time>21-Iunie-2021 (Luni)</time></i></li>
+                                <li><strong>In stoc:</strong> <i>Da</i></li>
+                                <li><strong>Culoare:</strong> <i>Gri</i></li>
+                            </ul>
+                        </details>
+                        <p class="descriere">Sportiv si elegant.</p>
+                    </div>
+                </article>
+            
+                <article id="produs_5" class="prod electric">
+                    <h3><a href="/produs/5">Electric E1</a></h3>
+                    <div class="col-1">
+                        <img src="/resurse/imagini/galerie/car5.jpg" alt="Electric E1"/>
+                        <div class="meta"><span class="categ">electric</span> - <span class="pret">38900 EUR</span></div>
+                    </div>
+                    <div class="col-2">
+                        <details>
+                            <summary>Specificații</summary>
+                            <ul>
+                                <li><strong>Subcategorie:</strong> <i>electric</i></li>
+                                <li><strong>Caracteristici multiple:</strong> <i>Autopilot,FastCharge,Regenerare</i></li>
+                                <li><strong>Putere (CP):</strong> <i>200</i></li>
+                                <li><strong>Data adaugare:</strong> <i><time>2-Aprilie-2024 (Marti)</time></i></li>
+                                <li><strong>In stoc:</strong> <i>Da</i></li>
+                                <li><strong>Culoare:</strong> <i>Alb</i></li>
+                            </ul>
+                        </details>
+                        <p class="descriere">Autonomie mare, costuri reduse.</p>
+                    </div>
+                </article>
+            
+                <article id="produs_6" class="prod compact">
+                    <h3><a href="/produs/6">Compacta A2</a></h3>
+                    <div class="col-1">
+                        <img src="/resurse/imagini/galerie/car6.jpg" alt="Compacta A2"/>
+                        <div class="meta"><span class="categ">compact</span> - <span class="pret">16500 EUR</span></div>
+                    </div>
+                    <div class="col-2">
+                        <details>
+                            <summary>Specificații</summary>
+                            <ul>
+                                <li><strong>Subcategorie:</strong> <i>hibrid</i></li>
+                                <li><strong>Caracteristici multiple:</strong> <i>Bluetooth,Clima,StartStop</i></li>
+                                <li><strong>Putere (CP):</strong> <i>110</i></li>
+                                <li><strong>Data adaugare:</strong> <i><time>30-August-2023 (Miercuri)</time></i></li>
+                                <li><strong>In stoc:</strong> <i>Da</i></li>
+                                <li><strong>Culoare:</strong> <i>Verde</i></li>
+                            </ul>
+                        </details>
+                        <p class="descriere">Versiune echipata a modelului compact.</p>
+                    </div>
+                </article>
+            
+                <article id="produs_7" class="prod sedan">
+                    <h3><a href="/produs/7">Sedan B3</a></h3>
+                    <div class="col-1">
+                        <img src="/resurse/imagini/galerie/car7.jpg" alt="Sedan B3"/>
+                        <div class="meta"><span class="categ">sedan</span> - <span class="pret">19900 EUR</span></div>
+                    </div>
+                    <div class="col-2">
+                        <details>
+                            <summary>Specificații</summary>
+                            <ul>
+                                <li><strong>Subcategorie:</strong> <i>benzina</i></li>
+                                <li><strong>Caracteristici multiple:</strong> <i>Airbag,Clima,USB</i></li>
+                                <li><strong>Putere (CP):</strong> <i>140</i></li>
+                                <li><strong>Data adaugare:</strong> <i><time>14-Februarie-2022 (Luni)</time></i></li>
+                                <li><strong>In stoc:</strong> <i>Nu</i></li>
+                                <li><strong>Culoare:</strong> <i>Alb</i></li>
+                            </ul>
+                        </details>
+                        <p class="descriere">Clasa medie, excelent raport pret/calitate.</p>
+                    </div>
+                </article>
+            
+                <article id="produs_8" class="prod suv">
+                    <h3><a href="/produs/8">SUV X5</a></h3>
+                    <div class="col-1">
+                        <img src="/resurse/imagini/galerie/car8.jpg" alt="SUV X5"/>
+                        <div class="meta"><span class="categ">suv</span> - <span class="pret">49900 EUR</span></div>
+                    </div>
+                    <div class="col-2">
+                        <details>
+                            <summary>Specificații</summary>
+                            <ul>
+                                <li><strong>Subcategorie:</strong> <i>diesel</i></li>
+                                <li><strong>Caracteristici multiple:</strong> <i>Spatiu,Trailer,Camera</i></li>
+                                <li><strong>Putere (CP):</strong> <i>320</i></li>
+                                <li><strong>Data adaugare:</strong> <i><time>19-Septembrie-2020 (Sambata)</time></i></li>
+                                <li><strong>In stoc:</strong> <i>Da</i></li>
+                                <li><strong>Culoare:</strong> <i>Negru</i></li>
+                            </ul>
+                        </details>
+                        <p class="descriere">Lux si performanta.</p>
+                    </div>
+                </article>
+            
+                <article id="produs_9" class="prod suv">
+                    <h3><a href="/produs/9">Crossover C1</a></h3>
+                    <div class="col-1">
+                        <img src="/resurse/imagini/galerie/car9.jpg" alt="Crossover C1"/>
+                        <div class="meta"><span class="categ">suv</span> - <span class="pret">27500 EUR</span></div>
+                    </div>
+                    <div class="col-2">
+                        <details>
+                            <summary>Specificații</summary>
+                            <ul>
+                                <li><strong>Subcategorie:</strong> <i>hibrid</i></li>
+                                <li><strong>Caracteristici multiple:</strong> <i>Bluetooth,Clima,4x4</i></li>
+                                <li><strong>Putere (CP):</strong> <i>160</i></li>
+                                <li><strong>Data adaugare:</strong> <i><time>1-Decembrie-2023 (Vineri)</time></i></li>
+                                <li><strong>In stoc:</strong> <i>Da</i></li>
+                                <li><strong>Culoare:</strong> <i>Gri</i></li>
+                            </ul>
+                        </details>
+                        <p class="descriere">Mix intre compact si SUV.</p>
+                    </div>
+                </article>
+            
+                <article id="produs_10" class="prod coupe">
+                    <h3><a href="/produs/10">Sport S1</a></h3>
+                    <div class="col-1">
+                        <img src="/resurse/imagini/galerie/car10.jpg" alt="Sport S1"/>
+                        <div class="meta"><span class="categ">coupe</span> - <span class="pret">65900 EUR</span></div>
+                    </div>
+                    <div class="col-2">
+                        <details>
+                            <summary>Specificații</summary>
+                            <ul>
+                                <li><strong>Subcategorie:</strong> <i>benzina</i></li>
+                                <li><strong>Caracteristici multiple:</strong> <i>PachetSport,InteriorPiele,SuspensieSport</i></li>
+                                <li><strong>Putere (CP):</strong> <i>420</i></li>
+                                <li><strong>Data adaugare:</strong> <i><time>3-Mai-2019 (Vineri)</time></i></li>
+                                <li><strong>In stoc:</strong> <i>Nu</i></li>
+                                <li><strong>Culoare:</strong> <i>Rosu</i></li>
+                            </ul>
+                        </details>
+                        <p class="descriere">Performanta extrema, pentru entuziasti.</p>
+                    </div>
+                </article>
+            
+                <article id="produs_11" class="prod electric">
+                    <h3><a href="/produs/11">Electric E2</a></h3>
+                    <div class="col-1">
+                        <img src="/resurse/imagini/galerie/car11.jpg" alt="Electric E2"/>
+                        <div class="meta"><span class="categ">electric</span> - <span class="pret">22500 EUR</span></div>
+                    </div>
+                    <div class="col-2">
+                        <details>
+                            <summary>Specificații</summary>
+                            <ul>
+                                <li><strong>Subcategorie:</strong> <i>electric</i></li>
+                                <li><strong>Caracteristici multiple:</strong> <i>FastCharge,Regenerare,Bluetooth</i></li>
+                                <li><strong>Putere (CP):</strong> <i>130</i></li>
+                                <li><strong>Data adaugare:</strong> <i><time>18-Februarie-2024 (Duminica)</time></i></li>
+                                <li><strong>In stoc:</strong> <i>Da</i></li>
+                                <li><strong>Culoare:</strong> <i>Albastru</i></li>
+                            </ul>
+                        </details>
+                        <p class="descriere">Compact electric, eficient pentru oras.</p>
+                    </div>
+                </article>
+            
+                <article id="produs_12" class="prod sedan">
+                    <h3><a href="/produs/12">Familial V1</a></h3>
+                    <div class="col-1">
+                        <img src="/resurse/imagini/galerie/car12.jpg" alt="Familial V1"/>
+                        <div class="meta"><span class="categ">sedan</span> - <span class="pret">28900 EUR</span></div>
+                    </div>
+                    <div class="col-2">
+                        <details>
+                            <summary>Specificații</summary>
+                            <ul>
+                                <li><strong>Subcategorie:</strong> <i>diesel</i></li>
+                                <li><strong>Caracteristici multiple:</strong> <i>Clima,ParkAssist,Camera</i></li>
+                                <li><strong>Putere (CP):</strong> <i>175</i></li>
+                                <li><strong>Data adaugare:</strong> <i><time>11-Noiembrie-2021 (Joi)</time></i></li>
+                                <li><strong>In stoc:</strong> <i>Da</i></li>
+                                <li><strong>Culoare:</strong> <i>Argintiu</i></li>
+                            </ul>
+                        </details>
+                        <p class="descriere">Spatiu mare, ideal pentru calatorii in familie.</p>
+                    </div>
+                </article>
+            
+                <article id="produs_13" class="prod compact">
+                    <h3><a href="/produs/13">Compacta Eco</a></h3>
+                    <div class="col-1">
+                        <img src="/resurse/imagini/galerie/car13.jpg" alt="Compacta Eco"/>
+                        <div class="meta"><span class="categ">compact</span> - <span class="pret">11900 EUR</span></div>
+                    </div>
+                    <div class="col-2">
+                        <details>
+                            <summary>Specificații</summary>
+                            <ul>
+                                <li><strong>Subcategorie:</strong> <i>diesel</i></li>
+                                <li><strong>Caracteristici multiple:</strong> <i>StartStop,USB,Bluetooth</i></li>
+                                <li><strong>Putere (CP):</strong> <i>85</i></li>
+                                <li><strong>Data adaugare:</strong> <i><time>7-Iulie-2022 (Joi)</time></i></li>
+                                <li><strong>In stoc:</strong> <i>Da</i></li>
+                                <li><strong>Culoare:</strong> <i>Galben</i></li>
+                            </ul>
+                        </details>
+                        <p class="descriere">Varianta foarte economica.</p>
+                    </div>
+                </article>
+            
+                <article id="produs_14" class="prod van">
+                    <h3><a href="/produs/14">Van L1</a></h3>
+                    <div class="col-1">
+                        <img src="/resurse/imagini/galerie/car14.jpg" alt="Van L1"/>
+                        <div class="meta"><span class="categ">van</span> - <span class="pret">30900 EUR</span></div>
+                    </div>
+                    <div class="col-2">
+                        <details>
+                            <summary>Specificații</summary>
+                            <ul>
+                                <li><strong>Subcategorie:</strong> <i>diesel</i></li>
+                                <li><strong>Caracteristici multiple:</strong> <i>SpatiuMarfa,AerConditionat,Trailer</i></li>
+                                <li><strong>Putere (CP):</strong> <i>160</i></li>
+                                <li><strong>Data adaugare:</strong> <i><time>27-Martie-2020 (Vineri)</time></i></li>
+                                <li><strong>In stoc:</strong> <i>Da</i></li>
+                                <li><strong>Culoare:</strong> <i>Alb</i></li>
+                            </ul>
+                        </details>
+                        <p class="descriere">Autovehicul utilitar pentru transport.</p>
+                    </div>
+                </article>
+            
+                <article id="produs_15" class="prod compact">
+                    <h3><a href="/produs/15">Hatchback H1</a></h3>
+                    <div class="col-1">
+                        <img src="/resurse/imagini/galerie/car15.jpg" alt="Hatchback H1"/>
+                        <div class="meta"><span class="categ">compact</span> - <span class="pret">14900 EUR</span></div>
+                    </div>
+                    <div class="col-2">
+                        <details>
+                            <summary>Specificații</summary>
+                            <ul>
+                                <li><strong>Subcategorie:</strong> <i>benzina</i></li>
+                                <li><strong>Caracteristici multiple:</strong> <i>Bluetooth,ABS,Clima</i></li>
+                                <li><strong>Putere (CP):</strong> <i>105</i></li>
+                                <li><strong>Data adaugare:</strong> <i><time>9-Septembrie-2023 (Sambata)</time></i></li>
+                                <li><strong>In stoc:</strong> <i>Da</i></li>
+                                <li><strong>Culoare:</strong> <i>Portocaliu</i></li>
+                            </ul>
+                        </details>
+                        <p class="descriere">Practic si usor de parcat.</p>
+                    </div>
+                </article>
+            
+        </section>
+    </main>
+
+    <script src="/resurse/js/produse.js"></script>
+    <footer>
+    <p id="print-banner">Acesta este un proiect școlar!</p>
+    <hr>
+    <address>
+        <p>Telefon Departament Suport și Contact: <a href="tel:+40700000000">0700 000 000</a></p>
+        <p>Adresa: Strada Academiei 14, București</p>
+        <p>E-mail: <a href="mailto:contact@dumauto.ro">contact@dumauto.ro</a></p>
+    </address>
+    <p><small>© <time datetime="2026-03-09">9 martie 2026</time> Copyright DUM AUTO.</small></p>
+</footer>
+<a href="#top" class="link-top" title="Spre începutul paginii">
+    <div class="triunghi"></div>
+</a>
+</body>
+</html>

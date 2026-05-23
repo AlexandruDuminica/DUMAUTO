@@ -1,0 +1,28 @@
+{
+  "oferte": [
+    {
+      "categorie": "van",
+      "data-incepere": "2026-05-23T17:38:51.112Z",
+      "data-finalizare": "2026-05-23T17:40:51.112Z",
+      "reducere": 25
+    },
+    {
+      "categorie": "suv",
+      "data-incepere": "2026-05-23T17:36:51.111Z",
+      "data-finalizare": "2026-05-23T17:38:51.111Z",
+      "reducere": 40
+    },
+    {
+      "categorie": "van",
+      "data-incepere": "2026-05-23T17:34:51.109Z",
+      "data-finalizare": "2026-05-23T17:36:51.109Z",
+      "reducere": 30
+    },
+    {
+      "categorie": "sedan",
+      "data-incepere": "2026-05-23T17:33:40.831Z",
+      "data-finalizare": "2026-05-23T17:35:40.831Z",
+      "reducere": 25
+    }
+  ]
+}

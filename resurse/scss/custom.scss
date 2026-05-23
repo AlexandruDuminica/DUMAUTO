@@ -20,9 +20,38 @@ $grid-breakpoints: (
 );
 
 $border-radius: 0.8rem;
+$btn-border-radius: $border-radius;
+$custom-btn-border-width: 0.12rem;
+
+// Range customization (50% larger than root font-size)
+$form-range-height: 1rem !default;
+$form-range-thumb-width: 1.5rem;
+$form-range-thumb-height: 1.5rem;
+$form-range-thumb-bg: $primary;
+$form-range-bg: lighten($primary, 40%);
 $h1-font-size: 2.8rem;
 $h2-font-size: 2.0rem;
 $font-family-base: Arial, sans-serif;
 $box-shadow: 0 0.4rem 0.8rem rgba(0, 0, 0, 0.08);
 
 @import "../../node_modules/bootstrap/scss/bootstrap";
+
+// force button border width and radius using our vars
+.btn {
+  border-width: $custom-btn-border-width !important;
+  border-radius: $btn-border-radius !important;
+}
+
+// customize range appearance if browser supports
+input[type="range"] {
+  &::-webkit-slider-thumb {
+    width: $form-range-thumb-width;
+    height: $form-range-thumb-height;
+    background: $form-range-thumb-bg;
+    border-radius: 50%;
+  }
+  &::-webkit-slider-runnable-track {
+    background: $form-range-bg;
+    height: $form-range-height;
+  }
+}

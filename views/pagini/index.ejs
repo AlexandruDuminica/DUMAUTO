@@ -11,6 +11,11 @@
     <%- include('../fragmente/header') %>
 
     <main class="grid-layout">
+        <% if (currentOffer) { %>
+        <section class="offer-home">
+            <div class="alert alert-info">Oferta curenta: <strong><%= currentOffer.categorie %></strong> - <%= currentOffer.reducere %>% reducere. Expira in <span id="timer-home">...</span></div>
+        </section>
+        <% } %>
         <section id="zona1">
             <article class="f-pattern-content">
                 <h2>Viziunea și Misiunea DUM AUTO</h2>
@@ -237,6 +242,8 @@
             <%- include('../fragmente/galerie') %>
         </section>
     </main>
+
+    <script src="/resurse/js/oferta.js"></script>
 
     <%- include('../fragmente/footer') %>
 </body>

@@ -567,3 +567,14 @@ hr.stilizat {
         margin-top: 0.5rem;
     }
 }
+
+/* Dark theme overrides */
+.dark-theme {
+    --primary: #93c5fd;
+    --bg-page: #0b1220;
+    --text-color: #e6eef8;
+    --highlight: #fb7185;
+    --border-color: #1f2937;
+    --zone-bg: #0b1220;
+    --highlight-light: rgba(251,113,133,0.08);
+}

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <title>Seturi produse</title>
+  <%- include('../fragmente/head') %>
+  <link rel="stylesheet" href="/resurse/css/produse.css">
+</head>
+<body>
+  <%- include('../fragmente/header') %>
+  <main class="container-produse">
+    <h2>Seturi</h2>
+    <div class="row">
+      <% sets.forEach(s=>{ %>
+        <div class="col-12 col-md-6">
+          <article class="prod">
+            <h3><%= s.nume %></h3>
+            <p><%= s.descriere %></p>
+            <p>Produse in set: <%= s.produseSet.length %></p>
+            <p>Reducere: <%= s.reduc %> %</p>
+            <p>Pret set: <strong><%= s.price %> EUR</strong></p>
+            <ul>
+              <% s.produseSet.forEach(p=>{ %>
+                <li><a href="/produs/<%= p.id %>"><%= p.nume %></a> - <%= p.pret %> EUR</li>
+              <% }) %>
+            </ul>
+          </article>
+        </div>
+      <% }) %>
+    </div>
+  </main>
+  <%- include('../fragmente/footer') %>
+</body>
+</html>

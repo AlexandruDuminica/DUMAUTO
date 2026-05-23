@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <title><%= produs.nume %> - DUM AUTO</title>
+    <%- include('../fragmente/head') %>
+    <link rel="stylesheet" href="/resurse/css/produse.css">
+</head>
+<body>
+    <%- include('../fragmente/header') %>
+    <main class="produs-single">
+        <article id="produs_<%= produs.id %>">
+            <h2><%= produs.nume %></h2>
+            <div class="two-col">
+                <div class="col-left">
+                    <img src="<%= produs.imagine %>" alt="<%= produs.nume %>">
+                    <p><strong>Categorie:</strong> <%= produs.categorie_mare %></p>
+                    <p><strong>Pret:</strong> <%= produs.pret %> EUR</p>
+                </div>
+                <div class="col-right">
+                    <details>
+                        <summary>Specificații</summary>
+                        <ul>
+                            <li><strong>Subcategorie:</strong> <i><%= produs.subcategorie %></i></li>
+                            <li><strong>Caracteristici multiple:</strong> <i><%= produs.caracteristici_multiple %></i></li>
+                            <li><strong>Putere (CP):</strong> <i><%= produs.putere_cp %></i></li>
+                            <li><strong>Data adăugare:</strong> <i><time><%= produs.formattedDate %></time></i></li>
+                            <li><strong>Culoare:</strong> <i><%= produs.culoare %></i></li>
+                            <li><strong>In stoc:</strong> <i><%= produs.in_stoc ? 'Da' : 'Nu' %></i></li>
+                        </ul>
+                    </details>
+                    <p class="descr">
+                        <%= produs.descriere %>
+                    </p>
+                    <div class="mt-2">
+                        <button class="btn btn-outline-primary btn-sm btn-compare" data-id="<%= produs.id %>" data-name="<%= produs.nume %>"><i class="bi bi-link-45deg"></i> Compară</button>
+                    </div>
+                </div>
+            </div>
+        </article>
+            <% if (typeof similare !== 'undefined' && similare.length) { %>
+            <section class="similar-products">
+                <h3>Produse similare</h3>
+                <div class="row">
+                    <% similare.forEach(s => { %>
+                        <div class="col-6 col-md-3">
+                            <div class="card">
+                                <img src="<%= s.imagine %>" class="card-img-top" alt="<%= s.nume %>">
+                                <div class="card-body">
+                                    <h5 class="card-title"><a href="/produs/<%= s.id %>"><%= s.nume %></a></h5>
+                                    <p class="card-text"><%= s.pret %> EUR</p>
+                                </div>
+                            </div>
+                        </div>
+                    <% }) %>
+                </div>
+            </section>
+            <% } %>
+    </main>
+    <%- include('../fragmente/footer') %>
+</body>
+</html>

@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <title>Produse - DUM AUTO</title>
+    <%- include('../fragmente/head') %>
+    <link rel="stylesheet" href="/resurse/css/produse.css">
+    <style>/* minimal layout adjustments if produse.css missing */
+    </style>
+</head>
+<body id="top">
+    <%- include('../fragmente/header') %>
+
+    <main class="container-produse">
+        <h2>Produse</h2>
+        <div class="d-flex justify-content-between align-items-center mb-2">
+            <div>Produse afișate: <span id="numar-produse"><%= produse.length %></span></div>
+            <% if (typeof currentOffer !== 'undefined' && currentOffer) { %>
+                <div class="alert alert-warning mb-0" role="alert" id="oferta-banner">
+                    Oferta: <strong><%= currentOffer.categorie %></strong> - <%= currentOffer.reducere %>% reducere. Se incheie in <span id="timer-oferta">...</span>
+                </div>
+            <% } %>
+        </div>
+
+        <section id="filtre-produs" class="mb-3">
+            <div class="row g-2 align-items-center">
+                <div class="col-12 col-md-3">
+                    <label class="form-label">Nume</label>
+                    <input type="text" id="filtru-nume" class="form-control form-control-sm" placeholder="Cauta dupa nume">
+                </div>
+                <div class="col-12 col-md-3">
+                    <label class="form-label">Pret <small class="text-muted">max: <span id="max-pret">100000</span></small></label>
+                    <input type="range" id="filtru-pret" class="form-range" min="0" max="100000" value="100000">
+                </div>
+                <div class="col-6 col-md-2">
+                    <label class="form-label">Subcategorie</label>
+                    <input list="datalist-sub" id="filtru-sub" class="form-control form-control-sm">
+                    <datalist id="datalist-sub">
+                        <% let subs = new Set(); produse.forEach(p=>subs.add(p.subcategorie)); subs.forEach(s=>{ %>
+                            <option value="<%= s %>"></option>
+                        <% }) %>
+                    </datalist>
+                </div>
+                <div class="col-6 col-md-2">
+                    <label class="form-label">Culoare</label>
+                    <div class="btn-group" role="group" aria-label="Culoare">
+                        <input type="radio" class="btn-check" name="culoare" id="culoare-toate" value="toate" autocomplete="off" checked>
+                        <label class="btn btn-outline-primary btn-sm" for="culoare-toate">Toate</label>
+                        <% let culori = new Set(); produse.forEach(p=>culori.add(p.culoare)); culori.forEach((c,i)=>{ %>
+                            <input type="radio" class="btn-check" name="culoare" id="culoare-<%= i %>" value="<%= c %>" autocomplete="off">
+                            <label class="btn btn-outline-primary btn-sm" for="culoare-<%= i %>"><%= c %></label>
+                        <% }) %>
+                    </div>
+                </div>
+                <div class="col-6 col-md-2">
+                    <label class="form-label d-block">Discount</label>
+                    <input class="btn-check" type="checkbox" id="filtru-discount" autocomplete="off">
+                    <label class="btn btn-outline-danger btn-sm" for="filtru-discount">Only &gt;30000</label>
+                </div>
+
+                <div class="col-12 col-md-4">
+                    <div class="form-floating">
+                        <textarea id="filtru-desc" class="form-control form-control-sm" placeholder="Descriere"></textarea>
+                        <label for="filtru-desc">Descriere</label>
+                    </div>
+                </div>
+
+                <div class="col-12 col-md-4">
+                    <label class="form-label">Luni (select multiplu)</label>
+                    <select id="filtru-luni" class="form-select form-select-sm" multiple size="4">
+                        <% const luni = ['Ianuarie','Februarie','Martie','Aprilie','Mai','Iunie','Iulie','August','Septembrie','Octombrie','Noiembrie','Decembrie'];
+                           luni.forEach((ln,i)=>{ %>
+                            <option value="<%= i+1 %>" selected><%= ln %></option>
+                        <% }) %>
+                    </select>
+                </div>
+
+                <div class="col-12 col-md-8 d-flex gap-2 align-items-center">
+                    <button id="btn-filtreaza" class="btn btn-primary btn-sm">
+                        <i class="bi bi-funnel"></i> <span class="d-none d-md-inline">Filtreaza</span>
+                    </button>
+                    <button id="btn-sort-asc" class="btn btn-primary btn-sm">
+                        <i class="bi bi-sort-alpha-down"></i> <span class="d-none d-md-inline">Sort Asc</span>
+                    </button>
+                    <button id="btn-sort-desc" class="btn btn-primary btn-sm">
+                        <i class="bi bi-sort-alpha-up"></i> <span class="d-none d-md-inline">Sort Desc</span>
+                    </button>
+                    <button id="btn-calc" class="btn btn-secondary btn-sm">
+                        <i class="bi bi-calculator"></i> <span class="d-none d-md-inline">Calculeaza</span>
+                    </button>
+                    <button id="btn-reset" class="btn btn-outline-secondary btn-sm">
+                        <i class="bi bi-arrow-counterclockwise"></i> <span class="d-none d-md-inline">Reset</span>
+                    </button>
+
+                    <div class="form-check form-switch ms-auto">
+                        <input class="form-check-input" type="checkbox" id="theme-switch">
+                        <label class="form-check-label" for="theme-switch"><i id="theme-icon" class="bi bi-sun-fill"></i></label>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="lista-produse" class="grid-prod">
+            <% produse.forEach(p => { %>
+                <article id="produs_<%= p.id %>" class="prod <%= p.categorie_mare.replace(/\s+/g,'') %>" data-id="<%= p.id %>">
+                    <h3><a href="/produs/<%= p.id %>"><%= p.nume %></a></h3>
+                    <div class="col-1">
+                        <img src="<%= p.imagine %>" alt="<%= p.nume %>"/>
+                        <div class="meta">
+                            <span class="categ"><%= p.categorie_mare %></span> - 
+                            <span class="pret">
+                                <% if (p.pret_redus) { %>
+                                    <span class="text-decoration-line-through text-muted"><%= p.pret %> EUR</span>
+                                    <span class="ms-2 text-danger"><strong><%= p.pret_redus %> EUR</strong></span>
+                                <% } else { %>
+                                    <span><%= p.pret %> EUR</span>
+                                <% } %>
+                            </span>
+                        </div>
+                        <% if (p.isCheapest) { %>
+                            <span class="badge bg-success">Cel mai ieftin</span>
+                        <% } %>
+                        <% if (p.isNew) { %>
+                            <span class="badge bg-info text-dark">NOU</span>
+                        <% } %>
+                        <div class="mt-2">
+                            <button class="btn btn-outline-primary btn-sm btn-compare" data-id="<%= p.id %>" data-name="<%= p.nume %>"><i class="bi bi-link-45deg"></i> <span class="d-none d-md-inline">Compară</span></button>
+                        </div>
+                    </div>
+                    <div class="col-2">
+                        <details>
+                            <summary>Specificații</summary>
+                            <ul>
+                                <li><strong>Subcategorie:</strong> <i><%= p.subcategorie %></i></li>
+                                <li><strong>Caracteristici multiple:</strong> <i><%= p.caracteristici_multiple %></i></li>
+                                <li><strong>Putere (CP):</strong> <i><%= p.putere_cp %></i></li>
+                                <li><strong>Data adaugare:</strong> <i><time><%= p.formattedDate %></time></i></li>
+                                <li><strong>In stoc:</strong> <i><%= p.in_stoc ? 'Da' : 'Nu' %></i></li>
+                                <li><strong>Culoare:</strong> <i><%= p.culoare %></i></li>
+                            </ul>
+                        </details>
+                        <p class="descriere"><%= p.descriere %></p>
+                    </div>
+                </article>
+            <% }) %>
+        </section>
+    </main>
+    <!-- Modal container -->
+    <div id="prod-modal" class="prod-modal" style="display:none;position:fixed;inset:0;align-items:center;justify-content:center;z-index:2000;">
+        <div class="prod-modal-backdrop" style="position:absolute;inset:0;background:rgba(0,0,0,0.5);"></div>
+        <div class="prod-modal-card" style="background:var(--zone-bg);color:var(--text-color);padding:1rem;border-radius:0.6rem;max-width:800px;z-index:2100;">
+            <button id="prod-modal-close" class="btn-close float-end" aria-label="Close"></button>
+            <div id="prod-modal-content"></div>
+        </div>
+    </div>
+
+    <script src="/resurse/js/produse.js"></script>
+    <script src="/resurse/js/compare.js"></script>
+    <%- include('../fragmente/footer') %>
+</body>
+</html>

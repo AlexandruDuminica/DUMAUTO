@@ -22,6 +22,20 @@
             <li><a href="/despre">Istoric și Descriere (Nou)</a></li>
             <li><a href="/catalog">Catalog și Configurator</a></li>
             <li><a href="/service">Garanție și Service</a></li>
+            <li>
+                <a href="/produse">Produse</a>
+                <ul class="submenu">
+                    <li><a href="/produse">Toate</a></li>
+                    <% if (typeof produseCategs !== 'undefined' && produseCategs && produseCategs.length) { %>
+                        <% produseCategs.forEach(function(c){ %>
+                            <li><a href="/produse?categ=<%= c %>"><%= c %></a></li>
+                        <% }) %>
+                    <% } %>
+                </ul>
+            </li>
+            <li><a href="/seturi">Seturi</a></li>
+            <li><a href="#" id="open-orar">Orar</a></li>
         </ul>
     </nav>
+    <%- include('orar') %>
 </header>

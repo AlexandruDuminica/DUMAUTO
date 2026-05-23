@@ -17,6 +17,108 @@ const obGlobal = {
     folderCss: path.join(__dirname, 'resurse', 'css')
 };
 
+const { Pool } = require('pg');
+
+// Offer generation and backup cleanup configuration (demo-friendly values)
+const OFFERT_INTERVAL_MS = 2 * 60 * 1000; // 2 minutes for demo
+const OFFERT_T2_MINUTES = 5; // cleanup expired offers older than T2 minutes
+const BACKUP_CLEANUP_MINUTES = 60; // remove backup files older than this (minutes)
+
+const oferteFile = path.join(__dirname, 'data', 'oferte.json');
+
+function readOffersFile() {
+    try {
+        if (!fs.existsSync(oferteFile)) return { oferte: [] };
+        return JSON.parse(fs.readFileSync(oferteFile));
+    } catch (e) { return { oferte: [] }; }
+}
+
+function writeOffersFile(obj) {
+    try { fs.writeFileSync(oferteFile, JSON.stringify(obj, null, 2)); } catch (e) {}
+}
+
+async function generateRandomOffer(availableCategories) {
+    try {
+        if (!availableCategories || availableCategories.length === 0) return;
+        const vals = [5,10,15,20,25,30,35,40,45,50];
+        let data = readOffersFile();
+        const prev = data.oferte && data.oferte[0] ? data.oferte[0].categorie : null;
+        // pick a random category not equal to prev
+        let pool = availableCategories.filter(c => c !== prev);
+        if (pool.length === 0) pool = availableCategories.slice();
+        const categorie = pool[Math.floor(Math.random() * pool.length)];
+        const reducere = vals[Math.floor(Math.random() * vals.length)];
+        const incepe = new Date();
+        const termina = new Date(incepe.getTime() + OFFERT_INTERVAL_MS);
+        const oferta = { categorie: categorie, 'data-incepere': incepe.toISOString(), 'data-finalizare': termina.toISOString(), reducere };
+        data.oferte = data.oferte || [];
+        data.oferte.unshift(oferta);
+        // cleanup offers older than OFFERT_T2_MINUTES
+        const cutoff = new Date(Date.now() - OFFERT_T2_MINUTES * 60 * 1000);
+        data.oferte = data.oferte.filter(o => new Date(o['data-finalizare']) >= cutoff);
+        writeOffersFile(data);
+        return oferta;
+    } catch (e) { return null; }
+}
+
+// periodic backup cleanup
+setInterval(() => {
+    try {
+        const folder = path.join(__dirname, 'backup');
+        if (!fs.existsSync(folder)) return;
+        const files = fs.readdirSync(folder, { withFileTypes: true });
+        const cutoff = Date.now() - BACKUP_CLEANUP_MINUTES * 60 * 1000;
+        files.forEach(f => {
+            const full = path.join(folder, f.name);
+            try {
+                const stat = fs.statSync(full);
+                if (stat.mtimeMs < cutoff) {
+                    if (f.isDirectory()) fs.rmSync(full, { recursive: true, force: true });
+                    else fs.unlinkSync(full);
+                }
+            } catch (e) {}
+        });
+    } catch (e) {}
+}, 5 * 60 * 1000);
+
+async function loadProductsFromDB() {
+    try {
+        const pool = new Pool({ connectionString: process.env.DATABASE_URL });
+        const client = await pool.connect();
+        try {
+            // attempt to get enum values for categorie_mare
+            let enumRes = await client.query("SELECT unnest(enum_range(NULL::categorie_mare))::text AS val");
+            let categs = enumRes.rows.map(r => r.val);
+            let prodRes = await client.query('SELECT * FROM produse ORDER BY id');
+            let produse = prodRes.rows.map(p => ({
+                ...p,
+                imagine: path.posix.join('/resurse', p.imagine),
+                luni_data: (new Date(p.data_adaugare)).getMonth() + 1
+            }));
+            client.release();
+            await pool.end();
+            return { produse, categs };
+        } catch (e) {
+            client.release();
+            await pool.end();
+            throw e;
+        }
+    } catch (e) {
+        throw e;
+    }
+}
+
+function loadProductsFromFile() {
+    let f = path.join(__dirname, 'data', 'produse.json');
+    if (!fs.existsSync(f)) return { produse: [], categs: [] };
+    let raw = fs.readFileSync(f);
+    let produse = JSON.parse(raw);
+    // build categs from values (unique)
+    let set = new Set();
+    produse.forEach(p => set.add(p.categorie_mare));
+    produse.forEach(p => p.imagine = path.posix.join('/resurse', p.imagine));
+    return { produse, categs: Array.from(set) };
+}
 const vect_foldere = ["temp", "logs", "backup", "fisiere_uploadate"];
 vect_foldere.forEach(f => {
     let c = path.join(__dirname, f);
@@ -121,6 +223,12 @@ async function pregatesteGalerie() {
 app.use((req, res, next) => {
     res.locals.userIP = req.ip;
     res.locals.galerie = []; 
+    res.locals.produseCategs = [];
+    // attach current offer to locals for all views
+    try {
+        const of = readOffersFile();
+        res.locals.currentOffer = of.oferte && of.oferte.length ? of.oferte[0] : null;
+    } catch (e) { res.locals.currentOffer = null; }
     next();
 });
 
@@ -133,6 +241,116 @@ app.get(['/', '/index', '/home'], async (req, res) => {
     } catch (e) {}
     res.render('pagini/index');
 });
+
+// Produse list - supports optional query ?categ=category
+app.get('/produse', async (req, res) => {
+    try {
+        let data;
+        try { data = await loadProductsFromDB(); } catch(e) { data = loadProductsFromFile(); }
+        let produse = data.produse;
+        let categs = data.categs;
+        res.locals.produseCategs = categs;
+        // ensure offers file exists
+        if (!fs.existsSync(oferteFile)) writeOffersFile({ oferte: [] });
+        // if no offers exist, generate one
+        let offersData = readOffersFile();
+        if ((!offersData.oferte || offersData.oferte.length === 0) && categs.length) {
+            await generateRandomOffer(categs);
+            offersData = readOffersFile();
+        }
+        const currentOffer = offersData.oferte && offersData.oferte.length ? offersData.oferte[0] : null;
+        res.locals.currentOffer = currentOffer;
+        // server-side category filter (menu links will pass ?categ=...)
+        if (req.query.categ) {
+            produse = produse.filter(p => p.categorie_mare.toLowerCase() === req.query.categ.toLowerCase());
+        }
+        // compute cheapest per category
+        const cheapest = {};
+        produse.forEach(p => {
+            if (!(p.categorie_mare in cheapest) || Number(p.pret) < Number(cheapest[p.categorie_mare].pret)) cheapest[p.categorie_mare] = p;
+        });
+
+        // provide formatted date for each product
+        produse = produse.map(p => {
+            let d = new Date(p.data_adaugare);
+            const luni = ['Ianuarie','Februarie','Martie','Aprilie','Mai','Iunie','Iulie','August','Septembrie','Octombrie','Noiembrie','Decembrie'];
+            const zile = ['Duminica','Luni','Marti','Miercuri','Joi','Vineri','Sambata'];
+            p.formattedDate = `${d.getDate()}-${luni[d.getMonth()]}-${d.getFullYear()} (${zile[d.getDay()]})`;
+            // mark cheapest
+            p.isCheapest = cheapest[p.categorie_mare] && Number(cheapest[p.categorie_mare].id) === Number(p.id);
+            // mark new product (demo: within 365 days -> use 180 days for demo)
+            const NEW_DAYS = 180;
+            p.isNew = (Date.now() - d.getTime()) <= NEW_DAYS * 24 * 60 * 60 * 1000;
+            // apply current offer discount if category matches
+            if (currentOffer && p.categorie_mare === currentOffer.categorie) {
+                p.discount = Number(currentOffer.reducere);
+                p.pret_redus = Math.round(Number(p.pret) * (100 - p.discount) / 100);
+            }
+            return p;
+        });
+        res.render('pagini/produse', { produse });
+    } catch (err) {
+        afisareEroare(res, 500, 'Eroare Produse', err.message);
+    }
+});
+
+// Single product page
+app.get('/produs/:id', async (req, res) => {
+    try {
+        let data;
+        try { data = await loadProductsFromDB(); } catch(e) { data = loadProductsFromFile(); }
+        let produs = data.produse.find(p => String(p.id) === String(req.params.id));
+        if (!produs) return afisareEroare(res, 404);
+        let d = new Date(produs.data_adaugare);
+        const luni = ['Ianuarie','Februarie','Martie','Aprilie','Mai','Iunie','Iulie','August','Septembrie','Octombrie','Noiembrie','Decembrie'];
+        const zile = ['Duminica','Luni','Marti','Miercuri','Joi','Vineri','Sambata'];
+        produs.formattedDate = `${d.getDate()}-${luni[d.getMonth()]}-${d.getFullYear()} (${zile[d.getDay()]})`;
+        // find similar products (same categorie)
+        let allData = loadProductsFromFile();
+        let similare = allData.produse.filter(x => String(x.categorie_mare) === String(produs.categorie_mare) && String(x.id) !== String(produs.id)).slice(0,4);
+        // format similar dates
+        similare = similare.map(s=>{ let d=new Date(s.data_adaugare); const luni=['Ianuarie','Februarie','Martie','Aprilie','Mai','Iunie','Iulie','August','Septembrie','Octombrie','Noiembrie','Decembrie']; const zile=['Duminica','Luni','Marti','Miercuri','Joi','Vineri','Sambata']; s.formattedDate = `${d.getDate()}-${luni[d.getMonth()]}-${d.getFullYear()} (${zile[d.getDay()]})`; s.imagine = path.posix.join('/resurse', s.imagine); return s; });
+        res.render('pagini/produs', { produs, similare });
+    } catch (err) {
+        afisareEroare(res, 500, 'Eroare Produs', err.message);
+    }
+});
+
+// API route to serve offers JSON
+app.get('/api/oferte', (req, res) => {
+    res.json(readOffersFile());
+});
+
+// API route for products (JSON fallback)
+app.get('/api/produse', (req, res) => {
+    try { let data = loadProductsFromFile(); res.json({ produse: data.produse }); } catch (e) { res.json({ produse: [] }); }
+});
+
+// Sets route (simple JSON-driven sets fallback)
+app.get('/seturi', (req, res) => {
+    let f = path.join(__dirname, 'data', 'seturi.json');
+    if (!fs.existsSync(f)) return afisareEroare(res, 404, 'Nu exista seturi');
+    let sets = JSON.parse(fs.readFileSync(f));
+    // compute prices
+    let data = loadProductsFromFile();
+    sets = sets.map(s => {
+        let produseSet = s.produse.map(id => data.produse.find(p=>String(p.id)===String(id))).filter(Boolean);
+        let sum = produseSet.reduce((acc,p)=>acc+Number(p.pret),0);
+        let n = produseSet.length;
+        let reduc = Math.min(5,n) * 5; // percent
+        let price = Math.round(sum * (100 - reduc) / 100);
+        return { ...s, produseSet, price, reduc };
+    });
+    res.render('pagini/seturi', { sets });
+});
+
+// Start periodic offer generator using categories from data file
+setInterval(async () => {
+    try {
+        let data = loadProductsFromFile();
+        await generateRandomOffer(data.categs);
+    } catch (e) {}
+}, OFFERT_INTERVAL_MS);
 
 app.get(/(.*)/, (req, res) => {
     let p = req.params[0] ? req.params[0].replace(/^\//, '').replace(/\/$/, '').toLowerCase() : 'index';
