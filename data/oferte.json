@@ -1,28 +1,28 @@
 {
   "oferte": [
     {
-      "categorie": "van",
-      "data-incepere": "2026-05-23T17:38:51.112Z",
-      "data-finalizare": "2026-05-23T17:40:51.112Z",
-      "reducere": 25
-    },
-    {
-      "categorie": "suv",
-      "data-incepere": "2026-05-23T17:36:51.111Z",
-      "data-finalizare": "2026-05-23T17:38:51.111Z",
-      "reducere": 40
-    },
-    {
-      "categorie": "van",
-      "data-incepere": "2026-05-23T17:34:51.109Z",
-      "data-finalizare": "2026-05-23T17:36:51.109Z",
-      "reducere": 30
-    },
-    {
       "categorie": "sedan",
-      "data-incepere": "2026-05-23T17:33:40.831Z",
-      "data-finalizare": "2026-05-23T17:35:40.831Z",
+      "data-incepere": "2026-05-23T20:22:09.822Z",
+      "data-finalizare": "2026-05-23T20:24:09.822Z",
+      "reducere": 10
+    },
+    {
+      "categorie": "electric",
+      "data-incepere": "2026-05-23T20:20:09.819Z",
+      "data-finalizare": "2026-05-23T20:22:09.819Z",
       "reducere": 25
+    },
+    {
+      "categorie": "compact",
+      "data-incepere": "2026-05-23T20:18:09.807Z",
+      "data-finalizare": "2026-05-23T20:20:09.807Z",
+      "reducere": 50
+    },
+    {
+      "categorie": "coupe",
+      "data-incepere": "2026-05-23T20:16:09.804Z",
+      "data-finalizare": "2026-05-23T20:18:09.804Z",
+      "reducere": 20
     }
   ]
 }

@@ -13,6 +13,25 @@ document.addEventListener('DOMContentLoaded', () => {
 
     rangePret.addEventListener('input', () => { maxPretSpan.textContent = rangePret.value; });
 
+    // restore saved filters into inputs (if any)
+    try {
+        const savedFilters = localStorage.getItem('produse_filters');
+        const saveFlag = localStorage.getItem('produse_filters_saved') === '1';
+        if (savedFilters && saveFlag) {
+            const f = JSON.parse(savedFilters);
+            if (f.nume) document.getElementById('filtru-nume').value = f.nume;
+            if (f.pretMax) document.getElementById('filtru-pret').value = f.pretMax;
+            if (f.sub) document.getElementById('filtru-sub').value = f.sub;
+            // select luni
+            if (f.luni && document.getElementById('filtru-luni')) {
+                Array.from(document.getElementById('filtru-luni').options).forEach(o => { o.selected = f.luni.includes(o.value); });
+            }
+            // check the save checkbox
+            const cb = document.getElementById('salveaza-filtrare'); if (cb) cb.checked = true;
+        }
+    } catch(e) {}
+
+
     function getVisibleArticles() { return Array.from(produseSection.querySelectorAll('article')).filter(a => a.style.display !== 'none'); }
 
     function validateInputs() {
@@ -69,6 +88,25 @@ document.addEventListener('DOMContentLoaded', () => {
     btnFiltreaza.addEventListener('click', (e) => {
         e.preventDefault();
         if (!validateInputs()) return;
+        // save current filters to localStorage and cookie only if checkbox is checked
+        const saveCheckbox = document.getElementById('salveaza-filtrare');
+        const filterObj = { 
+            nume: document.getElementById('filtru-nume').value.trim(),
+            pretMax: document.getElementById('filtru-pret').value,
+            sub: document.getElementById('filtru-sub').value.trim(),
+            luni: Array.from(document.getElementById('filtru-luni').selectedOptions).map(o=>o.value)
+        };
+        try {
+            if (saveCheckbox && saveCheckbox.checked) {
+                localStorage.setItem('produse_filters', JSON.stringify(filterObj));
+                localStorage.setItem('produse_filters_saved', '1');
+                if (window.myCookies && window.myCookies.setCookie) window.myCookies.setCookie('ultimeFiltre', JSON.stringify(filterObj), 7);
+            } else {
+                localStorage.removeItem('produse_filters');
+                localStorage.removeItem('produse_filters_saved');
+                if (window.myCookies && window.myCookies.deleteCookie) window.myCookies.deleteCookie('ultimeFiltre');
+            }
+        } catch(e){}
         const name = document.getElementById('filtru-nume').value.trim().toLowerCase();
         const pretMax = Number(rangePret.value);
         const sub = document.getElementById('filtru-sub').value.trim().toLowerCase();
@@ -154,7 +192,38 @@ document.addEventListener('DOMContentLoaded', () => {
         Array.from(document.getElementById('filtru-luni').options).forEach(o=>o.selected = true);
         // restore display and original order
         originalOrder.forEach(a=>{ a.style.display = ''; produseSection.appendChild(a); });
+        // clear saved filters and uncheck checkbox
+        try { localStorage.removeItem('produse_filters'); localStorage.removeItem('produse_filters_saved'); } catch(e){}
+        try { const cb = document.getElementById('salveaza-filtrare'); if (cb) cb.checked = false; } catch(e){}
+        try { if (window.myCookies && window.myCookies.deleteCookie) window.myCookies.deleteCookie('ultimeFiltre'); } catch(e){}
     });
+
+    // Accordion state: remember opened accordions in localStorage
+    const ACC_KEY = 'produse_accordion_open';
+    function saveAccordion() {
+        const opens = [];
+        document.querySelectorAll('.accordion-collapse').forEach(c => { if (c.classList.contains('show')) opens.push(c.id); });
+        try { localStorage.setItem(ACC_KEY, JSON.stringify(opens)); } catch(e){}
+    }
+    function restoreAccordion() {
+        try {
+            const data = JSON.parse(localStorage.getItem(ACC_KEY) || '[]');
+            data.forEach(id => {
+                const el = document.getElementById(id);
+                if (el) {
+                    const bs = bootstrap.Collapse.getOrCreateInstance(el);
+                    bs.show();
+                }
+            });
+        } catch(e){}
+    }
+    // attach listeners to accordion elements
+    document.querySelectorAll('.accordion-collapse').forEach(el => {
+        el.addEventListener('shown.bs.collapse', saveAccordion);
+        el.addEventListener('hidden.bs.collapse', saveAccordion);
+    });
+    // restore
+    restoreAccordion();
 
     // update displayed product count
     function updateCount() {
@@ -201,14 +270,15 @@ document.addEventListener('DOMContentLoaded', () => {
         fetch('/api/oferte').then(r=>r.json()).then(j=>{
             if (!j.oferte || j.oferte.length === 0) return;
             const end = new Date(j.oferte[0]['data-finalizare']);
-            const tick = () => {
-                const diff = end - Date.now();
-                if (diff <= 0) { location.reload(); return; }
-                const s = Math.floor(diff/1000)%60; const m = Math.floor(diff/1000/60)%60; const h = Math.floor(diff/1000/3600);
-                timerEl.textContent = `${h}h ${m}m ${s}s`;
-                if (diff <= 10000) timerEl.style.color = 'red';
-            };
-            tick(); setInterval(tick, 1000);
+                let intervalId = null;
+                const tick = () => {
+                    const diff = end - Date.now();
+                    if (diff <= 0) { if (intervalId) clearInterval(intervalId); setTimeout(() => { location.reload(); }, 1500); return; }
+                    const s = Math.floor(diff/1000)%60; const m = Math.floor(diff/1000/60)%60; const h = Math.floor(diff/1000/3600);
+                    timerEl.textContent = `${h}h ${m}m ${s}s`;
+                    if (diff <= 10000) timerEl.style.color = 'red';
+                };
+                tick(); intervalId = setInterval(tick, 1000);
         }).catch(()=>{});
     }
 });

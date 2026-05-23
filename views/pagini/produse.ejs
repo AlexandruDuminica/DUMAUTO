@@ -95,6 +95,10 @@
                         <input class="form-check-input" type="checkbox" id="theme-switch">
                         <label class="form-check-label" for="theme-switch"><i id="theme-icon" class="bi bi-sun-fill"></i></label>
                     </div>
+                    <div class="form-check ms-2">
+                        <input class="form-check-input" type="checkbox" id="salveaza-filtrare">
+                        <label class="form-check-label" for="salveaza-filtrare">Salvează filtrare</label>
+                    </div>
                 </div>
             </div>
         </section>
@@ -127,17 +131,27 @@
                         </div>
                     </div>
                     <div class="col-2">
-                        <details>
-                            <summary>Specificații</summary>
-                            <ul>
-                                <li><strong>Subcategorie:</strong> <i><%= p.subcategorie %></i></li>
-                                <li><strong>Caracteristici multiple:</strong> <i><%= p.caracteristici_multiple %></i></li>
-                                <li><strong>Putere (CP):</strong> <i><%= p.putere_cp %></i></li>
-                                <li><strong>Data adaugare:</strong> <i><time><%= p.formattedDate %></time></i></li>
-                                <li><strong>In stoc:</strong> <i><%= p.in_stoc ? 'Da' : 'Nu' %></i></li>
-                                <li><strong>Culoare:</strong> <i><%= p.culoare %></i></li>
-                            </ul>
-                        </details>
+                        <div class="accordion" id="accordion-<%= p.id %>">
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="heading-<%= p.id %>">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-<%= p.id %>" aria-expanded="false" aria-controls="collapse-<%= p.id %>">
+                                        Specificații
+                                    </button>
+                                </h2>
+                                <div id="collapse-<%= p.id %>" class="accordion-collapse collapse" aria-labelledby="heading-<%= p.id %>" data-bs-parent="#accordion-<%= p.id %>">
+                                    <div class="accordion-body">
+                                        <ul>
+                                            <li><strong>Subcategorie:</strong> <i><%= p.subcategorie %></i></li>
+                                            <li><strong>Caracteristici multiple:</strong> <i><%= p.caracteristici_multiple %></i></li>
+                                            <li><strong>Putere (CP):</strong> <i><%= p.putere_cp %></i></li>
+                                            <li><strong>Data adaugare:</strong> <i><time><%= p.formattedDate %></time></i></li>
+                                            <li><strong>In stoc:</strong> <i><%= p.in_stoc ? 'Da' : 'Nu' %></i></li>
+                                            <li><strong>Culoare:</strong> <i><%= p.culoare %></i></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                         <p class="descriere"><%= p.descriere %></p>
                     </div>
                 </article>

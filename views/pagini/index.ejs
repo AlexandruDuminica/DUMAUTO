@@ -16,6 +16,11 @@
             <div class="alert alert-info">Oferta curenta: <strong><%= currentOffer.categorie %></strong> - <%= currentOffer.reducere %>% reducere. Expira in <span id="timer-home">...</span></div>
         </section>
         <% } %>
+        <% if (lastVisitedProduct) { %>
+        <section class="last-visited">
+            <div class="alert alert-secondary">Ultimul produs vizitat: <strong><%= lastVisitedProduct %></strong></div>
+        </section>
+        <% } %>
         <section id="zona1">
             <article class="f-pattern-content">
                 <h2>Viziunea și Misiunea DUM AUTO</h2>

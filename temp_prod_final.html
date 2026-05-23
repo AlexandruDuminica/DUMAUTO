@@ -1,0 +1,944 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <title>Produse - DUM AUTO</title>
+    <meta charset="utf-8">
+<meta name="author" content="Duminică Dănuț-Alexandru">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/png" href="/resurse/imagini/favicon/favicon-96x96.png" sizes="96x96">
+<link rel="icon" type="image/svg+xml" href="/resurse/imagini/favicon/favicon.svg">
+<link rel="shortcut icon" href="/resurse/imagini/favicon/favicon.ico">
+<link rel="apple-touch-icon" sizes="180x180" href="/resurse/imagini/favicon/apple-touch-icon.png">
+<link rel="manifest" href="/resurse/imagini/favicon/site.webmanifest">
+<meta name="msapplication-TileColor" content="#ffffff">
+
+<link rel="stylesheet" href="/resurse/css/custom.css">
+<link rel="stylesheet" href="/resurse/css/stil.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+<script src="/resurse/js/orar.js" defer></script>
+<script src="/resurse/js/compare.js" defer></script>
+<script src="/resurse/js/cookies.js" defer></script>
+<!-- Bootstrap JS bundle -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" defer></script>
+git log --oneline
+
+    <link rel="stylesheet" href="/resurse/css/produse.css">
+    <style>/* minimal layout adjustments if produse.css missing */
+    </style>
+</head>
+<body id="top">
+    <header>
+    <hgroup>
+        <h1>DUM AUTO</h1>
+        <h2>Experiența achiziționării unui autoturism din confortul casei tale.</h2>
+    </hgroup>
+    <img src="/resurse/imagini/logo.png" alt="Logo DumAuto">
+    <input type="checkbox" id="menu-toggle">
+    <label for="menu-toggle" id="hamburger-menu">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+    </label>
+    <nav>
+        <ul>
+            <li>
+                <a href="/">Acasă</a>
+                <ul class="submenu">
+                    <li><a href="/#zona1">Despre Conceptul Nostru</a></li>
+                    <li><a href="/#zona8">Modele și Oferte</a></li>
+                </ul>
+            </li>
+            <li><a href="/despre">Istoric și Descriere (Nou)</a></li>
+            <li><a href="/catalog">Catalog și Configurator</a></li>
+            <li><a href="/service">Garanție și Service</a></li>
+            <li>
+                <a href="/produse">Produse</a>
+                <ul class="submenu">
+                    <li><a href="/produse">Toate</a></li>
+                    
+                        
+                            <li><a href="/produse?categ=compact">compact</a></li>
+                        
+                            <li><a href="/produse?categ=sedan">sedan</a></li>
+                        
+                            <li><a href="/produse?categ=suv">suv</a></li>
+                        
+                            <li><a href="/produse?categ=coupe">coupe</a></li>
+                        
+                            <li><a href="/produse?categ=electric">electric</a></li>
+                        
+                            <li><a href="/produse?categ=van">van</a></li>
+                        
+                    
+                </ul>
+            </li>
+            <li><a href="/seturi">Seturi</a></li>
+            <li><a href="#" id="open-orar">Orar</a></li>
+        </ul>
+    </nav>
+    <div id="orar-overlay" style="display:none;position:fixed;inset:0;z-index:2200;align-items:center;justify-content:center;">
+  <div style="position:absolute;inset:0;background:rgba(0,0,0,0.5);"></div>
+  <div style="background:var(--zone-bg);color:var(--text-color);padding:1rem;border-radius:0.6rem;max-width:600px;z-index:2210;">
+    <button id="orar-close" class="btn-close float-end"></button>
+    <h4>Orar</h4>
+    <table class="table table-sm">
+      <thead><tr><th>Zi</th><th>Interval</th></tr></thead>
+      <tbody>
+        <tr><td>Luni</td><td>09:00 - 17:00</td></tr>
+        <tr><td>Marti</td><td>09:00 - 17:00</td></tr>
+        <tr><td>Miercuri</td><td>09:00 - 17:00</td></tr>
+        <tr><td>Joi</td><td>09:00 - 17:00</td></tr>
+        <tr><td>Vineri</td><td>09:00 - 17:00</td></tr>
+        <tr><td>Sambata</td><td>10:00 - 14:00</td></tr>
+        <tr><td>Duminica</td><td>Inchis</td></tr>
+      </tbody>
+    </table>
+    <div id="orar-status" class="mt-2"></div>
+  </div>
+</div>
+
+</header>
+
+    <main class="container-produse">
+        <h2>Produse</h2>
+        <div class="d-flex justify-content-between align-items-center mb-2">
+            <div>Produse afișate: <span id="numar-produse">15</span></div>
+            
+                <div class="alert alert-warning mb-0" role="alert" id="oferta-banner">
+                    Oferta: <strong>van</strong> - 5% reducere. Se incheie in <span id="timer-oferta">...</span>
+                </div>
+            
+        </div>
+
+        <section id="filtre-produs" class="mb-3">
+            <div class="row g-2 align-items-center">
+                <div class="col-12 col-md-3">
+                    <label class="form-label">Nume</label>
+                    <input type="text" id="filtru-nume" class="form-control form-control-sm" placeholder="Cauta dupa nume">
+                </div>
+                <div class="col-12 col-md-3">
+                    <label class="form-label">Pret <small class="text-muted">max: <span id="max-pret">100000</span></small></label>
+                    <input type="range" id="filtru-pret" class="form-range" min="0" max="100000" value="100000">
+                </div>
+                <div class="col-6 col-md-2">
+                    <label class="form-label">Subcategorie</label>
+                    <input list="datalist-sub" id="filtru-sub" class="form-control form-control-sm">
+                    <datalist id="datalist-sub">
+                        
+                            <option value="benzina"></option>
+                        
+                            <option value="diesel"></option>
+                        
+                            <option value="electric"></option>
+                        
+                            <option value="hibrid"></option>
+                        
+                    </datalist>
+                </div>
+                <div class="col-6 col-md-2">
+                    <label class="form-label">Culoare</label>
+                    <div class="btn-group" role="group" aria-label="Culoare">
+                        <input type="radio" class="btn-check" name="culoare" id="culoare-toate" value="toate" autocomplete="off" checked>
+                        <label class="btn btn-outline-primary btn-sm" for="culoare-toate">Toate</label>
+                        
+                            <input type="radio" class="btn-check" name="culoare" id="culoare-Rosu" value="Rosu" autocomplete="off">
+                            <label class="btn btn-outline-primary btn-sm" for="culoare-Rosu">Rosu</label>
+                        
+                            <input type="radio" class="btn-check" name="culoare" id="culoare-Negru" value="Negru" autocomplete="off">
+                            <label class="btn btn-outline-primary btn-sm" for="culoare-Negru">Negru</label>
+                        
+                            <input type="radio" class="btn-check" name="culoare" id="culoare-Albastru" value="Albastru" autocomplete="off">
+                            <label class="btn btn-outline-primary btn-sm" for="culoare-Albastru">Albastru</label>
+                        
+                            <input type="radio" class="btn-check" name="culoare" id="culoare-Gri" value="Gri" autocomplete="off">
+                            <label class="btn btn-outline-primary btn-sm" for="culoare-Gri">Gri</label>
+                        
+                            <input type="radio" class="btn-check" name="culoare" id="culoare-Alb" value="Alb" autocomplete="off">
+                            <label class="btn btn-outline-primary btn-sm" for="culoare-Alb">Alb</label>
+                        
+                            <input type="radio" class="btn-check" name="culoare" id="culoare-Verde" value="Verde" autocomplete="off">
+                            <label class="btn btn-outline-primary btn-sm" for="culoare-Verde">Verde</label>
+                        
+                            <input type="radio" class="btn-check" name="culoare" id="culoare-Argintiu" value="Argintiu" autocomplete="off">
+                            <label class="btn btn-outline-primary btn-sm" for="culoare-Argintiu">Argintiu</label>
+                        
+                            <input type="radio" class="btn-check" name="culoare" id="culoare-Galben" value="Galben" autocomplete="off">
+                            <label class="btn btn-outline-primary btn-sm" for="culoare-Galben">Galben</label>
+                        
+                            <input type="radio" class="btn-check" name="culoare" id="culoare-Portocaliu" value="Portocaliu" autocomplete="off">
+                            <label class="btn btn-outline-primary btn-sm" for="culoare-Portocaliu">Portocaliu</label>
+                        
+                    </div>
+                </div>
+                <div class="col-6 col-md-2">
+                    <label class="form-label d-block">Discount</label>
+                    <input class="btn-check" type="checkbox" id="filtru-discount" autocomplete="off">
+                    <label class="btn btn-outline-danger btn-sm" for="filtru-discount">Only &gt;30000</label>
+                </div>
+
+                <div class="col-12 col-md-4">
+                    <div class="form-floating">
+                        <textarea id="filtru-desc" class="form-control form-control-sm" placeholder="Descriere"></textarea>
+                        <label for="filtru-desc">Descriere</label>
+                    </div>
+                </div>
+
+                <div class="col-12 col-md-4">
+                    <label class="form-label">Luni (select multiplu)</label>
+                    <select id="filtru-luni" class="form-select form-select-sm" multiple size="4">
+                        
+                            <option value="1" selected>Ianuarie</option>
+                        
+                            <option value="2" selected>Februarie</option>
+                        
+                            <option value="3" selected>Martie</option>
+                        
+                            <option value="4" selected>Aprilie</option>
+                        
+                            <option value="5" selected>Mai</option>
+                        
+                            <option value="6" selected>Iunie</option>
+                        
+                            <option value="7" selected>Iulie</option>
+                        
+                            <option value="8" selected>August</option>
+                        
+                            <option value="9" selected>Septembrie</option>
+                        
+                            <option value="10" selected>Octombrie</option>
+                        
+                            <option value="11" selected>Noiembrie</option>
+                        
+                            <option value="12" selected>Decembrie</option>
+                        
+                    </select>
+                </div>
+
+                <div class="col-12 col-md-8 d-flex gap-2 align-items-center">
+                    <button id="btn-filtreaza" class="btn btn-primary btn-sm">
+                        <i class="bi bi-funnel"></i> <span class="d-none d-md-inline">Filtreaza</span>
+                    </button>
+                    <button id="btn-sort-asc" class="btn btn-primary btn-sm">
+                        <i class="bi bi-sort-alpha-down"></i> <span class="d-none d-md-inline">Sort Asc</span>
+                    </button>
+                    <button id="btn-sort-desc" class="btn btn-primary btn-sm">
+                        <i class="bi bi-sort-alpha-up"></i> <span class="d-none d-md-inline">Sort Desc</span>
+                    </button>
+                    <button id="btn-calc" class="btn btn-secondary btn-sm">
+                        <i class="bi bi-calculator"></i> <span class="d-none d-md-inline">Calculeaza</span>
+                    </button>
+                    <button id="btn-reset" class="btn btn-outline-secondary btn-sm">
+                        <i class="bi bi-arrow-counterclockwise"></i> <span class="d-none d-md-inline">Reset</span>
+                    </button>
+
+                    <div class="form-check form-switch ms-auto">
+                        <input class="form-check-input" type="checkbox" id="theme-switch">
+                        <label class="form-check-label" for="theme-switch"><i id="theme-icon" class="bi bi-sun-fill"></i></label>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="lista-produse" class="grid-prod">
+            
+                <article id="produs_1" class="prod compact" data-id="1">
+                    <h3><a href="/produs/1">Compacta A1</a></h3>
+                    <div class="col-1">
+                        <img src="/resurse/imagini/galerie/car1.jpg" alt="Compacta A1"/>
+                        <div class="meta">
+                            <span class="categ">compact</span> - 
+                            <span class="pret">
+                                
+                                    <span>13500 EUR</span>
+                                
+                            </span>
+                        </div>
+                        
+                        
+                        <div class="mt-2">
+                            <button class="btn btn-outline-primary btn-sm btn-compare" data-id="1" data-name="Compacta A1"><i class="bi bi-link-45deg"></i> <span class="d-none d-md-inline">Compară</span></button>
+                        </div>
+                    </div>
+                    <div class="col-2">
+                        <div class="accordion" id="accordion-1">
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="heading-1">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-1" aria-expanded="false" aria-controls="collapse-1">
+                                        Specificații
+                                    </button>
+                                </h2>
+                                <div id="collapse-1" class="accordion-collapse collapse" aria-labelledby="heading-1" data-bs-parent="#accordion-1">
+                                    <div class="accordion-body">
+                                        <ul>
+                                            <li><strong>Subcategorie:</strong> <i>benzina</i></li>
+                                            <li><strong>Caracteristici multiple:</strong> <i>ABS,Airbag,Bluetooth</i></li>
+                                            <li><strong>Putere (CP):</strong> <i>95</i></li>
+                                            <li><strong>Data adaugare:</strong> <i><time>15-Martie-2023 (Miercuri)</time></i></li>
+                                            <li><strong>In stoc:</strong> <i>Da</i></li>
+                                            <li><strong>Culoare:</strong> <i>Rosu</i></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="descriere">Model compact, consum redus, ideal pentru oras.</p>
+                    </div>
+                </article>
+            
+                <article id="produs_2" class="prod sedan" data-id="2">
+                    <h3><a href="/produs/2">Sedan B2</a></h3>
+                    <div class="col-1">
+                        <img src="/resurse/imagini/galerie/car2.jpg" alt="Sedan B2"/>
+                        <div class="meta">
+                            <span class="categ">sedan</span> - 
+                            <span class="pret">
+                                
+                                    <span>22500 EUR</span>
+                                
+                            </span>
+                        </div>
+                        
+                        
+                        <div class="mt-2">
+                            <button class="btn btn-outline-primary btn-sm btn-compare" data-id="2" data-name="Sedan B2"><i class="bi bi-link-45deg"></i> <span class="d-none d-md-inline">Compară</span></button>
+                        </div>
+                    </div>
+                    <div class="col-2">
+                        <div class="accordion" id="accordion-2">
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="heading-2">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-2" aria-expanded="false" aria-controls="collapse-2">
+                                        Specificații
+                                    </button>
+                                </h2>
+                                <div id="collapse-2" class="accordion-collapse collapse" aria-labelledby="heading-2" data-bs-parent="#accordion-2">
+                                    <div class="accordion-body">
+                                        <ul>
+                                            <li><strong>Subcategorie:</strong> <i>diesel</i></li>
+                                            <li><strong>Caracteristici multiple:</strong> <i>Clima,ParkingAssist,Tempomat</i></li>
+                                            <li><strong>Putere (CP):</strong> <i>150</i></li>
+                                            <li><strong>Data adaugare:</strong> <i><time>10-Ianuarie-2024 (Miercuri)</time></i></li>
+                                            <li><strong>In stoc:</strong> <i>Da</i></li>
+                                            <li><strong>Culoare:</strong> <i>Negru</i></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="descriere">Sedan confortabil pentru familii mici.</p>
+                    </div>
+                </article>
+            
+                <article id="produs_3" class="prod suv" data-id="3">
+                    <h3><a href="/produs/3">SUV X3</a></h3>
+                    <div class="col-1">
+                        <img src="/resurse/imagini/galerie/car3.jpg" alt="SUV X3"/>
+                        <div class="meta">
+                            <span class="categ">suv</span> - 
+                            <span class="pret">
+                                
+                                    <span>34500 EUR</span>
+                                
+                            </span>
+                        </div>
+                        
+                        
+                        <div class="mt-2">
+                            <button class="btn btn-outline-primary btn-sm btn-compare" data-id="3" data-name="SUV X3"><i class="bi bi-link-45deg"></i> <span class="d-none d-md-inline">Compară</span></button>
+                        </div>
+                    </div>
+                    <div class="col-2">
+                        <div class="accordion" id="accordion-3">
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="heading-3">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-3" aria-expanded="false" aria-controls="collapse-3">
+                                        Specificații
+                                    </button>
+                                </h2>
+                                <div id="collapse-3" class="accordion-collapse collapse" aria-labelledby="heading-3" data-bs-parent="#accordion-3">
+                                    <div class="accordion-body">
+                                        <ul>
+                                            <li><strong>Subcategorie:</strong> <i>benzina</i></li>
+                                            <li><strong>Caracteristici multiple:</strong> <i>4x4,Panorama,Camera</i></li>
+                                            <li><strong>Putere (CP):</strong> <i>190</i></li>
+                                            <li><strong>Data adaugare:</strong> <i><time>5-Noiembrie-2022 (Sambata)</time></i></li>
+                                            <li><strong>In stoc:</strong> <i>Nu</i></li>
+                                            <li><strong>Culoare:</strong> <i>Albastru</i></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="descriere">SUV robust, ideal pentru drumuri lungi.</p>
+                    </div>
+                </article>
+            
+                <article id="produs_4" class="prod coupe" data-id="4">
+                    <h3><a href="/produs/4">Coupe R</a></h3>
+                    <div class="col-1">
+                        <img src="/resurse/imagini/galerie/car4.jpg" alt="Coupe R"/>
+                        <div class="meta">
+                            <span class="categ">coupe</span> - 
+                            <span class="pret">
+                                
+                                    <span>41200 EUR</span>
+                                
+                            </span>
+                        </div>
+                        
+                            <span class="badge bg-success">Cel mai ieftin</span>
+                        
+                        
+                        <div class="mt-2">
+                            <button class="btn btn-outline-primary btn-sm btn-compare" data-id="4" data-name="Coupe R"><i class="bi bi-link-45deg"></i> <span class="d-none d-md-inline">Compară</span></button>
+                        </div>
+                    </div>
+                    <div class="col-2">
+                        <div class="accordion" id="accordion-4">
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="heading-4">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-4" aria-expanded="false" aria-controls="collapse-4">
+                                        Specificații
+                                    </button>
+                                </h2>
+                                <div id="collapse-4" class="accordion-collapse collapse" aria-labelledby="heading-4" data-bs-parent="#accordion-4">
+                                    <div class="accordion-body">
+                                        <ul>
+                                            <li><strong>Subcategorie:</strong> <i>benzina</i></li>
+                                            <li><strong>Caracteristici multiple:</strong> <i>Spoiler,InteriorPiele,FaruriLED</i></li>
+                                            <li><strong>Putere (CP):</strong> <i>260</i></li>
+                                            <li><strong>Data adaugare:</strong> <i><time>21-Iunie-2021 (Luni)</time></i></li>
+                                            <li><strong>In stoc:</strong> <i>Da</i></li>
+                                            <li><strong>Culoare:</strong> <i>Gri</i></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="descriere">Sportiv si elegant.</p>
+                    </div>
+                </article>
+            
+                <article id="produs_5" class="prod electric" data-id="5">
+                    <h3><a href="/produs/5">Electric E1</a></h3>
+                    <div class="col-1">
+                        <img src="/resurse/imagini/galerie/car5.jpg" alt="Electric E1"/>
+                        <div class="meta">
+                            <span class="categ">electric</span> - 
+                            <span class="pret">
+                                
+                                    <span>38900 EUR</span>
+                                
+                            </span>
+                        </div>
+                        
+                        
+                        <div class="mt-2">
+                            <button class="btn btn-outline-primary btn-sm btn-compare" data-id="5" data-name="Electric E1"><i class="bi bi-link-45deg"></i> <span class="d-none d-md-inline">Compară</span></button>
+                        </div>
+                    </div>
+                    <div class="col-2">
+                        <div class="accordion" id="accordion-5">
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="heading-5">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-5" aria-expanded="false" aria-controls="collapse-5">
+                                        Specificații
+                                    </button>
+                                </h2>
+                                <div id="collapse-5" class="accordion-collapse collapse" aria-labelledby="heading-5" data-bs-parent="#accordion-5">
+                                    <div class="accordion-body">
+                                        <ul>
+                                            <li><strong>Subcategorie:</strong> <i>electric</i></li>
+                                            <li><strong>Caracteristici multiple:</strong> <i>Autopilot,FastCharge,Regenerare</i></li>
+                                            <li><strong>Putere (CP):</strong> <i>200</i></li>
+                                            <li><strong>Data adaugare:</strong> <i><time>2-Aprilie-2024 (Marti)</time></i></li>
+                                            <li><strong>In stoc:</strong> <i>Da</i></li>
+                                            <li><strong>Culoare:</strong> <i>Alb</i></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="descriere">Autonomie mare, costuri reduse.</p>
+                    </div>
+                </article>
+            
+                <article id="produs_6" class="prod compact" data-id="6">
+                    <h3><a href="/produs/6">Compacta A2</a></h3>
+                    <div class="col-1">
+                        <img src="/resurse/imagini/galerie/car6.jpg" alt="Compacta A2"/>
+                        <div class="meta">
+                            <span class="categ">compact</span> - 
+                            <span class="pret">
+                                
+                                    <span>16500 EUR</span>
+                                
+                            </span>
+                        </div>
+                        
+                        
+                        <div class="mt-2">
+                            <button class="btn btn-outline-primary btn-sm btn-compare" data-id="6" data-name="Compacta A2"><i class="bi bi-link-45deg"></i> <span class="d-none d-md-inline">Compară</span></button>
+                        </div>
+                    </div>
+                    <div class="col-2">
+                        <div class="accordion" id="accordion-6">
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="heading-6">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-6" aria-expanded="false" aria-controls="collapse-6">
+                                        Specificații
+                                    </button>
+                                </h2>
+                                <div id="collapse-6" class="accordion-collapse collapse" aria-labelledby="heading-6" data-bs-parent="#accordion-6">
+                                    <div class="accordion-body">
+                                        <ul>
+                                            <li><strong>Subcategorie:</strong> <i>hibrid</i></li>
+                                            <li><strong>Caracteristici multiple:</strong> <i>Bluetooth,Clima,StartStop</i></li>
+                                            <li><strong>Putere (CP):</strong> <i>110</i></li>
+                                            <li><strong>Data adaugare:</strong> <i><time>30-August-2023 (Miercuri)</time></i></li>
+                                            <li><strong>In stoc:</strong> <i>Da</i></li>
+                                            <li><strong>Culoare:</strong> <i>Verde</i></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="descriere">Versiune echipata a modelului compact.</p>
+                    </div>
+                </article>
+            
+                <article id="produs_7" class="prod sedan" data-id="7">
+                    <h3><a href="/produs/7">Sedan B3</a></h3>
+                    <div class="col-1">
+                        <img src="/resurse/imagini/galerie/car7.jpg" alt="Sedan B3"/>
+                        <div class="meta">
+                            <span class="categ">sedan</span> - 
+                            <span class="pret">
+                                
+                                    <span>19900 EUR</span>
+                                
+                            </span>
+                        </div>
+                        
+                            <span class="badge bg-success">Cel mai ieftin</span>
+                        
+                        
+                        <div class="mt-2">
+                            <button class="btn btn-outline-primary btn-sm btn-compare" data-id="7" data-name="Sedan B3"><i class="bi bi-link-45deg"></i> <span class="d-none d-md-inline">Compară</span></button>
+                        </div>
+                    </div>
+                    <div class="col-2">
+                        <div class="accordion" id="accordion-7">
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="heading-7">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-7" aria-expanded="false" aria-controls="collapse-7">
+                                        Specificații
+                                    </button>
+                                </h2>
+                                <div id="collapse-7" class="accordion-collapse collapse" aria-labelledby="heading-7" data-bs-parent="#accordion-7">
+                                    <div class="accordion-body">
+                                        <ul>
+                                            <li><strong>Subcategorie:</strong> <i>benzina</i></li>
+                                            <li><strong>Caracteristici multiple:</strong> <i>Airbag,Clima,USB</i></li>
+                                            <li><strong>Putere (CP):</strong> <i>140</i></li>
+                                            <li><strong>Data adaugare:</strong> <i><time>14-Februarie-2022 (Luni)</time></i></li>
+                                            <li><strong>In stoc:</strong> <i>Nu</i></li>
+                                            <li><strong>Culoare:</strong> <i>Alb</i></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="descriere">Clasa medie, excelent raport pret/calitate.</p>
+                    </div>
+                </article>
+            
+                <article id="produs_8" class="prod suv" data-id="8">
+                    <h3><a href="/produs/8">SUV X5</a></h3>
+                    <div class="col-1">
+                        <img src="/resurse/imagini/galerie/car8.jpg" alt="SUV X5"/>
+                        <div class="meta">
+                            <span class="categ">suv</span> - 
+                            <span class="pret">
+                                
+                                    <span>49900 EUR</span>
+                                
+                            </span>
+                        </div>
+                        
+                        
+                        <div class="mt-2">
+                            <button class="btn btn-outline-primary btn-sm btn-compare" data-id="8" data-name="SUV X5"><i class="bi bi-link-45deg"></i> <span class="d-none d-md-inline">Compară</span></button>
+                        </div>
+                    </div>
+                    <div class="col-2">
+                        <div class="accordion" id="accordion-8">
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="heading-8">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-8" aria-expanded="false" aria-controls="collapse-8">
+                                        Specificații
+                                    </button>
+                                </h2>
+                                <div id="collapse-8" class="accordion-collapse collapse" aria-labelledby="heading-8" data-bs-parent="#accordion-8">
+                                    <div class="accordion-body">
+                                        <ul>
+                                            <li><strong>Subcategorie:</strong> <i>diesel</i></li>
+                                            <li><strong>Caracteristici multiple:</strong> <i>Spatiu,Trailer,Camera</i></li>
+                                            <li><strong>Putere (CP):</strong> <i>320</i></li>
+                                            <li><strong>Data adaugare:</strong> <i><time>19-Septembrie-2020 (Sambata)</time></i></li>
+                                            <li><strong>In stoc:</strong> <i>Da</i></li>
+                                            <li><strong>Culoare:</strong> <i>Negru</i></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="descriere">Lux si performanta.</p>
+                    </div>
+                </article>
+            
+                <article id="produs_9" class="prod suv" data-id="9">
+                    <h3><a href="/produs/9">Crossover C1</a></h3>
+                    <div class="col-1">
+                        <img src="/resurse/imagini/galerie/car9.jpg" alt="Crossover C1"/>
+                        <div class="meta">
+                            <span class="categ">suv</span> - 
+                            <span class="pret">
+                                
+                                    <span>27500 EUR</span>
+                                
+                            </span>
+                        </div>
+                        
+                            <span class="badge bg-success">Cel mai ieftin</span>
+                        
+                        
+                        <div class="mt-2">
+                            <button class="btn btn-outline-primary btn-sm btn-compare" data-id="9" data-name="Crossover C1"><i class="bi bi-link-45deg"></i> <span class="d-none d-md-inline">Compară</span></button>
+                        </div>
+                    </div>
+                    <div class="col-2">
+                        <div class="accordion" id="accordion-9">
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="heading-9">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-9" aria-expanded="false" aria-controls="collapse-9">
+                                        Specificații
+                                    </button>
+                                </h2>
+                                <div id="collapse-9" class="accordion-collapse collapse" aria-labelledby="heading-9" data-bs-parent="#accordion-9">
+                                    <div class="accordion-body">
+                                        <ul>
+                                            <li><strong>Subcategorie:</strong> <i>hibrid</i></li>
+                                            <li><strong>Caracteristici multiple:</strong> <i>Bluetooth,Clima,4x4</i></li>
+                                            <li><strong>Putere (CP):</strong> <i>160</i></li>
+                                            <li><strong>Data adaugare:</strong> <i><time>1-Decembrie-2023 (Vineri)</time></i></li>
+                                            <li><strong>In stoc:</strong> <i>Da</i></li>
+                                            <li><strong>Culoare:</strong> <i>Gri</i></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="descriere">Mix intre compact si SUV.</p>
+                    </div>
+                </article>
+            
+                <article id="produs_10" class="prod coupe" data-id="10">
+                    <h3><a href="/produs/10">Sport S1</a></h3>
+                    <div class="col-1">
+                        <img src="/resurse/imagini/galerie/car10.jpg" alt="Sport S1"/>
+                        <div class="meta">
+                            <span class="categ">coupe</span> - 
+                            <span class="pret">
+                                
+                                    <span>65900 EUR</span>
+                                
+                            </span>
+                        </div>
+                        
+                        
+                        <div class="mt-2">
+                            <button class="btn btn-outline-primary btn-sm btn-compare" data-id="10" data-name="Sport S1"><i class="bi bi-link-45deg"></i> <span class="d-none d-md-inline">Compară</span></button>
+                        </div>
+                    </div>
+                    <div class="col-2">
+                        <div class="accordion" id="accordion-10">
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="heading-10">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-10" aria-expanded="false" aria-controls="collapse-10">
+                                        Specificații
+                                    </button>
+                                </h2>
+                                <div id="collapse-10" class="accordion-collapse collapse" aria-labelledby="heading-10" data-bs-parent="#accordion-10">
+                                    <div class="accordion-body">
+                                        <ul>
+                                            <li><strong>Subcategorie:</strong> <i>benzina</i></li>
+                                            <li><strong>Caracteristici multiple:</strong> <i>PachetSport,InteriorPiele,SuspensieSport</i></li>
+                                            <li><strong>Putere (CP):</strong> <i>420</i></li>
+                                            <li><strong>Data adaugare:</strong> <i><time>3-Mai-2019 (Vineri)</time></i></li>
+                                            <li><strong>In stoc:</strong> <i>Nu</i></li>
+                                            <li><strong>Culoare:</strong> <i>Rosu</i></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="descriere">Performanta extrema, pentru entuziasti.</p>
+                    </div>
+                </article>
+            
+                <article id="produs_11" class="prod electric" data-id="11">
+                    <h3><a href="/produs/11">Electric E2</a></h3>
+                    <div class="col-1">
+                        <img src="/resurse/imagini/galerie/car11.jpg" alt="Electric E2"/>
+                        <div class="meta">
+                            <span class="categ">electric</span> - 
+                            <span class="pret">
+                                
+                                    <span>22500 EUR</span>
+                                
+                            </span>
+                        </div>
+                        
+                            <span class="badge bg-success">Cel mai ieftin</span>
+                        
+                        
+                        <div class="mt-2">
+                            <button class="btn btn-outline-primary btn-sm btn-compare" data-id="11" data-name="Electric E2"><i class="bi bi-link-45deg"></i> <span class="d-none d-md-inline">Compară</span></button>
+                        </div>
+                    </div>
+                    <div class="col-2">
+                        <div class="accordion" id="accordion-11">
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="heading-11">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-11" aria-expanded="false" aria-controls="collapse-11">
+                                        Specificații
+                                    </button>
+                                </h2>
+                                <div id="collapse-11" class="accordion-collapse collapse" aria-labelledby="heading-11" data-bs-parent="#accordion-11">
+                                    <div class="accordion-body">
+                                        <ul>
+                                            <li><strong>Subcategorie:</strong> <i>electric</i></li>
+                                            <li><strong>Caracteristici multiple:</strong> <i>FastCharge,Regenerare,Bluetooth</i></li>
+                                            <li><strong>Putere (CP):</strong> <i>130</i></li>
+                                            <li><strong>Data adaugare:</strong> <i><time>18-Februarie-2024 (Duminica)</time></i></li>
+                                            <li><strong>In stoc:</strong> <i>Da</i></li>
+                                            <li><strong>Culoare:</strong> <i>Albastru</i></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="descriere">Compact electric, eficient pentru oras.</p>
+                    </div>
+                </article>
+            
+                <article id="produs_12" class="prod sedan" data-id="12">
+                    <h3><a href="/produs/12">Familial V1</a></h3>
+                    <div class="col-1">
+                        <img src="/resurse/imagini/galerie/car12.jpg" alt="Familial V1"/>
+                        <div class="meta">
+                            <span class="categ">sedan</span> - 
+                            <span class="pret">
+                                
+                                    <span>28900 EUR</span>
+                                
+                            </span>
+                        </div>
+                        
+                        
+                        <div class="mt-2">
+                            <button class="btn btn-outline-primary btn-sm btn-compare" data-id="12" data-name="Familial V1"><i class="bi bi-link-45deg"></i> <span class="d-none d-md-inline">Compară</span></button>
+                        </div>
+                    </div>
+                    <div class="col-2">
+                        <div class="accordion" id="accordion-12">
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="heading-12">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-12" aria-expanded="false" aria-controls="collapse-12">
+                                        Specificații
+                                    </button>
+                                </h2>
+                                <div id="collapse-12" class="accordion-collapse collapse" aria-labelledby="heading-12" data-bs-parent="#accordion-12">
+                                    <div class="accordion-body">
+                                        <ul>
+                                            <li><strong>Subcategorie:</strong> <i>diesel</i></li>
+                                            <li><strong>Caracteristici multiple:</strong> <i>Clima,ParkAssist,Camera</i></li>
+                                            <li><strong>Putere (CP):</strong> <i>175</i></li>
+                                            <li><strong>Data adaugare:</strong> <i><time>11-Noiembrie-2021 (Joi)</time></i></li>
+                                            <li><strong>In stoc:</strong> <i>Da</i></li>
+                                            <li><strong>Culoare:</strong> <i>Argintiu</i></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="descriere">Spatiu mare, ideal pentru calatorii in familie.</p>
+                    </div>
+                </article>
+            
+                <article id="produs_13" class="prod compact" data-id="13">
+                    <h3><a href="/produs/13">Compacta Eco</a></h3>
+                    <div class="col-1">
+                        <img src="/resurse/imagini/galerie/car13.jpg" alt="Compacta Eco"/>
+                        <div class="meta">
+                            <span class="categ">compact</span> - 
+                            <span class="pret">
+                                
+                                    <span>11900 EUR</span>
+                                
+                            </span>
+                        </div>
+                        
+                            <span class="badge bg-success">Cel mai ieftin</span>
+                        
+                        
+                        <div class="mt-2">
+                            <button class="btn btn-outline-primary btn-sm btn-compare" data-id="13" data-name="Compacta Eco"><i class="bi bi-link-45deg"></i> <span class="d-none d-md-inline">Compară</span></button>
+                        </div>
+                    </div>
+                    <div class="col-2">
+                        <div class="accordion" id="accordion-13">
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="heading-13">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-13" aria-expanded="false" aria-controls="collapse-13">
+                                        Specificații
+                                    </button>
+                                </h2>
+                                <div id="collapse-13" class="accordion-collapse collapse" aria-labelledby="heading-13" data-bs-parent="#accordion-13">
+                                    <div class="accordion-body">
+                                        <ul>
+                                            <li><strong>Subcategorie:</strong> <i>diesel</i></li>
+                                            <li><strong>Caracteristici multiple:</strong> <i>StartStop,USB,Bluetooth</i></li>
+                                            <li><strong>Putere (CP):</strong> <i>85</i></li>
+                                            <li><strong>Data adaugare:</strong> <i><time>7-Iulie-2022 (Joi)</time></i></li>
+                                            <li><strong>In stoc:</strong> <i>Da</i></li>
+                                            <li><strong>Culoare:</strong> <i>Galben</i></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="descriere">Varianta foarte economica.</p>
+                    </div>
+                </article>
+            
+                <article id="produs_14" class="prod van" data-id="14">
+                    <h3><a href="/produs/14">Van L1</a></h3>
+                    <div class="col-1">
+                        <img src="/resurse/imagini/galerie/car14.jpg" alt="Van L1"/>
+                        <div class="meta">
+                            <span class="categ">van</span> - 
+                            <span class="pret">
+                                
+                                    <span class="text-decoration-line-through text-muted">30900 EUR</span>
+                                    <span class="ms-2 text-danger"><strong>29355 EUR</strong></span>
+                                
+                            </span>
+                        </div>
+                        
+                            <span class="badge bg-success">Cel mai ieftin</span>
+                        
+                        
+                        <div class="mt-2">
+                            <button class="btn btn-outline-primary btn-sm btn-compare" data-id="14" data-name="Van L1"><i class="bi bi-link-45deg"></i> <span class="d-none d-md-inline">Compară</span></button>
+                        </div>
+                    </div>
+                    <div class="col-2">
+                        <div class="accordion" id="accordion-14">
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="heading-14">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-14" aria-expanded="false" aria-controls="collapse-14">
+                                        Specificații
+                                    </button>
+                                </h2>
+                                <div id="collapse-14" class="accordion-collapse collapse" aria-labelledby="heading-14" data-bs-parent="#accordion-14">
+                                    <div class="accordion-body">
+                                        <ul>
+                                            <li><strong>Subcategorie:</strong> <i>diesel</i></li>
+                                            <li><strong>Caracteristici multiple:</strong> <i>SpatiuMarfa,AerConditionat,Trailer</i></li>
+                                            <li><strong>Putere (CP):</strong> <i>160</i></li>
+                                            <li><strong>Data adaugare:</strong> <i><time>27-Martie-2020 (Vineri)</time></i></li>
+                                            <li><strong>In stoc:</strong> <i>Da</i></li>
+                                            <li><strong>Culoare:</strong> <i>Alb</i></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="descriere">Autovehicul utilitar pentru transport.</p>
+                    </div>
+                </article>
+            
+                <article id="produs_15" class="prod compact" data-id="15">
+                    <h3><a href="/produs/15">Hatchback H1</a></h3>
+                    <div class="col-1">
+                        <img src="/resurse/imagini/galerie/car15.jpg" alt="Hatchback H1"/>
+                        <div class="meta">
+                            <span class="categ">compact</span> - 
+                            <span class="pret">
+                                
+                                    <span>14900 EUR</span>
+                                
+                            </span>
+                        </div>
+                        
+                        
+                        <div class="mt-2">
+                            <button class="btn btn-outline-primary btn-sm btn-compare" data-id="15" data-name="Hatchback H1"><i class="bi bi-link-45deg"></i> <span class="d-none d-md-inline">Compară</span></button>
+                        </div>
+                    </div>
+                    <div class="col-2">
+                        <div class="accordion" id="accordion-15">
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="heading-15">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-15" aria-expanded="false" aria-controls="collapse-15">
+                                        Specificații
+                                    </button>
+                                </h2>
+                                <div id="collapse-15" class="accordion-collapse collapse" aria-labelledby="heading-15" data-bs-parent="#accordion-15">
+                                    <div class="accordion-body">
+                                        <ul>
+                                            <li><strong>Subcategorie:</strong> <i>benzina</i></li>
+                                            <li><strong>Caracteristici multiple:</strong> <i>Bluetooth,ABS,Clima</i></li>
+                                            <li><strong>Putere (CP):</strong> <i>105</i></li>
+                                            <li><strong>Data adaugare:</strong> <i><time>9-Septembrie-2023 (Sambata)</time></i></li>
+                                            <li><strong>In stoc:</strong> <i>Da</i></li>
+                                            <li><strong>Culoare:</strong> <i>Portocaliu</i></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="descriere">Practic si usor de parcat.</p>
+                    </div>
+                </article>
+            
+        </section>
+    </main>
+    <!-- Modal container -->
+    <div id="prod-modal" class="prod-modal" style="display:none;position:fixed;inset:0;align-items:center;justify-content:center;z-index:2000;">
+        <div class="prod-modal-backdrop" style="position:absolute;inset:0;background:rgba(0,0,0,0.5);"></div>
+        <div class="prod-modal-card" style="background:var(--zone-bg);color:var(--text-color);padding:1rem;border-radius:0.6rem;max-width:800px;z-index:2100;">
+            <button id="prod-modal-close" class="btn-close float-end" aria-label="Close"></button>
+            <div id="prod-modal-content"></div>
+        </div>
+    </div>
+
+    <script src="/resurse/js/produse.js"></script>
+    <script src="/resurse/js/compare.js"></script>
+    <footer>
+    <p id="print-banner">Acesta este un proiect școlar!</p>
+    <hr>
+    <address>
+        <p>Telefon Departament Suport și Contact: <a href="tel:+40700000000">0700 000 000</a></p>
+        <p>Adresa: Strada Academiei 14, București</p>
+        <p>E-mail: <a href="mailto:contact@dumauto.ro">contact@dumauto.ro</a></p>
+    </address>
+    <p><small>© <time datetime="2026-03-09">9 martie 2026</time> Copyright DUM AUTO.</small></p>
+</footer>
+<a href="#top" class="link-top" title="Spre începutul paginii">
+    <div class="triunghi"></div>
+</a>
+</body>
+</html>

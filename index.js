@@ -229,6 +229,13 @@ app.use((req, res, next) => {
         const of = readOffersFile();
         res.locals.currentOffer = of.oferte && of.oferte.length ? of.oferte[0] : null;
     } catch (e) { res.locals.currentOffer = null; }
+    // parse cookies (simple)
+    res.locals.lastVisitedProduct = null;
+    try {
+        const cookies = {};
+        if (req.headers.cookie) req.headers.cookie.split(';').forEach(c => { const [k,v] = c.split('='); if (k && v) cookies[k.trim()] = decodeURIComponent(v.trim()); });
+        if (cookies.ultimulProdus) res.locals.lastVisitedProduct = cookies.ultimulProdus;
+    } catch (e) {}
     next();
 });
 
@@ -310,6 +317,8 @@ app.get('/produs/:id', async (req, res) => {
         let similare = allData.produse.filter(x => String(x.categorie_mare) === String(produs.categorie_mare) && String(x.id) !== String(produs.id)).slice(0,4);
         // format similar dates
         similare = similare.map(s=>{ let d=new Date(s.data_adaugare); const luni=['Ianuarie','Februarie','Martie','Aprilie','Mai','Iunie','Iulie','August','Septembrie','Octombrie','Noiembrie','Decembrie']; const zile=['Duminica','Luni','Marti','Miercuri','Joi','Vineri','Sambata']; s.formattedDate = `${d.getDate()}-${luni[d.getMonth()]}-${d.getFullYear()} (${zile[d.getDay()]})`; s.imagine = path.posix.join('/resurse', s.imagine); return s; });
+        // set cookie for last visited product (1 week)
+        try { res.setHeader('Set-Cookie', `ultimulProdus=${encodeURIComponent(produs.nume)}; Max-Age=${7*24*60*60}; Path=/`); } catch(e){}
         res.render('pagini/produs', { produs, similare });
     } catch (err) {
         afisareEroare(res, 500, 'Eroare Produs', err.message);
