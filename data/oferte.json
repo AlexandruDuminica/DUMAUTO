@@ -1,6 +1,12 @@
 {
   "oferte": [
     {
+      "categorie": "electric",
+      "data-incepere": "2026-05-23T20:24:09.824Z",
+      "data-finalizare": "2026-05-23T20:26:09.824Z",
+      "reducere": 30
+    },
+    {
       "categorie": "sedan",
       "data-incepere": "2026-05-23T20:22:09.822Z",
       "data-finalizare": "2026-05-23T20:24:09.822Z",
@@ -17,12 +23,6 @@
       "data-incepere": "2026-05-23T20:18:09.807Z",
       "data-finalizare": "2026-05-23T20:20:09.807Z",
       "reducere": 50
-    },
-    {
-      "categorie": "coupe",
-      "data-incepere": "2026-05-23T20:16:09.804Z",
-      "data-finalizare": "2026-05-23T20:18:09.804Z",
-      "reducere": 20
     }
   ]
 }
