@@ -1,6 +1,12 @@
 {
   "oferte": [
     {
+      "categorie": "compact",
+      "data-incepere": "2026-05-23T20:26:09.827Z",
+      "data-finalizare": "2026-05-23T20:28:09.827Z",
+      "reducere": 5
+    },
+    {
       "categorie": "electric",
       "data-incepere": "2026-05-23T20:24:09.824Z",
       "data-finalizare": "2026-05-23T20:26:09.824Z",
@@ -17,12 +23,6 @@
       "data-incepere": "2026-05-23T20:20:09.819Z",
       "data-finalizare": "2026-05-23T20:22:09.819Z",
       "reducere": 25
-    },
-    {
-      "categorie": "compact",
-      "data-incepere": "2026-05-23T20:18:09.807Z",
-      "data-finalizare": "2026-05-23T20:20:09.807Z",
-      "reducere": 50
     }
   ]
 }
