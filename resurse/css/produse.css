@@ -3,10 +3,16 @@
 .filtre-row{display:flex;flex-wrap:wrap;gap:0.5rem;margin-bottom:0.5rem}
 .butons-row{margin-bottom:1rem}
 .grid-prod{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1rem}
-.prod{border:1px solid #ccc;padding:0.5rem;display:flex;flex-direction:column}
+.prod{border:1px solid #ccc;padding:0.5rem;display:flex;flex-direction:column;transition:box-shadow 0.2s,border-color 0.2s;}
 .prod .col-1{display:flex;flex-direction:column;align-items:center}
 .prod img{max-width:100%;height:150px;object-fit:cover}
 .col-2{padding:0.5rem}
 .calc-popup{position:fixed;right:20px;bottom:20px;background:#222;color:#fff;padding:10px;border-radius:6px;z-index:9999}
 .produs-single .two-col{display:flex;gap:1rem}
 .produs-single img{max-width:320px}
+/* Bonus 6 */
+.prod-pinned{border:2px solid #f59e0b !important;box-shadow:0 0 0 3px rgba(245,158,11,0.25) !important;}
+.prod-pinned::before{content:"📌 Fixat";display:block;font-size:0.75rem;color:#b45309;font-weight:bold;margin-bottom:0.25rem;}
+/* Bonus 14: cheapest per category */
+.prod-cheapest{border:2px solid #16a34a !important;box-shadow:0 0 0 3px rgba(22,163,74,0.2) !important;}
+.cheapest-label{display:inline-flex;align-items:center;gap:0.3rem;background:#16a34a;color:#fff;font-size:0.8rem;font-weight:700;padding:0.15rem 0.5rem;border-radius:0.3rem;margin:0.25rem 0;}

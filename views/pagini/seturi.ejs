@@ -1,28 +1,41 @@
 <!DOCTYPE html>
 <html lang="ro">
 <head>
-  <title>Seturi produse</title>
+  <title>Seturi produse - DUM AUTO</title>
   <%- include('../fragmente/head') %>
   <link rel="stylesheet" href="/resurse/css/produse.css">
 </head>
 <body>
   <%- include('../fragmente/header') %>
   <main class="container-produse">
-    <h2>Seturi</h2>
-    <div class="row">
+    <h2>Seturi de produse</h2>
+    <div class="row g-4">
       <% sets.forEach(s=>{ %>
         <div class="col-12 col-md-6">
-          <article class="prod">
-            <h3><%= s.nume %></h3>
-            <p><%= s.descriere %></p>
-            <p>Produse in set: <%= s.produseSet.length %></p>
-            <p>Reducere: <%= s.reduc %> %</p>
-            <p>Pret set: <strong><%= s.price %> EUR</strong></p>
-            <ul>
-              <% s.produseSet.forEach(p=>{ %>
-                <li><a href="/produs/<%= p.id %>"><%= p.nume %></a> - <%= p.pret %> EUR</li>
-              <% }) %>
-            </ul>
+          <article class="prod card h-100">
+            <div class="card-header">
+              <h3 class="mb-0"><%= s.nume %></h3>
+            </div>
+            <div class="card-body">
+              <p class="text-muted"><%= s.descriere %></p>
+              <p class="mb-1">Produse în set: <strong><%= s.produseSet.length %></strong> &bull; Reducere set: <span class="badge bg-warning text-dark">-<%= s.reduc %>%</span></p>
+              <p class="mb-3">Preț set: <strong class="text-primary fs-5"><%= s.price %> EUR</strong></p>
+              <div class="row g-2">
+                <% s.produseSet.forEach(p=>{ %>
+                <div class="col-6 col-sm-4">
+                  <div class="card h-100 border-0 shadow-sm">
+                    <a href="/produs/<%= p.id %>">
+                      <img src="<%= p.imagine %>" class="card-img-top" alt="<%= p.nume %>" style="height:90px;object-fit:cover;">
+                    </a>
+                    <div class="card-body p-1">
+                      <a href="/produs/<%= p.id %>" class="d-block small fw-semibold"><%= p.nume %></a>
+                      <span class="small text-muted"><%= p.pret %> EUR</span>
+                    </div>
+                  </div>
+                </div>
+                <% }) %>
+              </div>
+            </div>
           </article>
         </div>
       <% }) %>

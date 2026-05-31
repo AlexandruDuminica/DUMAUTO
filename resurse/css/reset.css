@@ -1,4 +1,14 @@
 /* Fișier: resurse/css/reset.css */
+
+/* Variabile pentru valori reutilizate în reset */
+:root {
+    --reset-list-indent: 2rem;
+    --reset-spacing-sm: 1rem;
+    --reset-spacing-md: 1.5rem;
+    --reset-border-bold: bold;
+    --reset-border-italic: italic;
+}
+
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 a, abbr, acronym, address, big, cite, code,
@@ -35,18 +45,18 @@ body {
 }
 
 strong, b {
-    font-weight: bold;
+    font-weight: var(--reset-border-bold);
     color: inherit;
 }
 
 em, i {
-    font-style: italic;
+    font-style: var(--reset-border-italic);
     color: inherit;
 }
 
 ul, ol {
-    padding-left: 2rem;
-    margin-bottom: 1rem;
+    padding-left: var(--reset-list-indent);
+    margin-bottom: var(--reset-spacing-sm);
 }
 
 ul {
@@ -61,7 +71,7 @@ table {
 	border-collapse: collapse;
 	border-spacing: 0;
     width: 100%;
-    margin-bottom: 1.5rem;
+    margin-bottom: var(--reset-spacing-md);
 }
 
 blockquote, q {

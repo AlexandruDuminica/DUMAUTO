@@ -9,28 +9,71 @@
     <%- include('../fragmente/header') %>
     <main class="produs-single">
         <article id="produs_<%= produs.id %>">
-            <h2><%= produs.nume %></h2>
+            <h2><%= produs.nume %>
+                <% if (produs.isNew) { %><span class="badge bg-info text-dark ms-2" style="font-size:0.6em;vertical-align:middle;">NOU</span><% } %>
+            </h2>
             <div class="two-col">
                 <div class="col-left">
-                    <img src="<%= produs.imagine %>" alt="<%= produs.nume %>">
+                    <% if (typeof imaginiProdus !== 'undefined' && imaginiProdus.length > 1) { %>
+                    <!-- Bonus 9: Bootstrap carousel for multiple images -->
+                    <div id="carousel-produs" class="carousel slide" data-bs-ride="false" style="max-width:320px;">
+                        <div class="carousel-inner">
+                            <% imaginiProdus.forEach((img, idx) => { %>
+                            <div class="carousel-item<%= idx === 0 ? ' active' : '' %>">
+                                <img src="<%= img %>" class="d-block w-100" alt="<%= produs.nume %> - imaginea <%= idx+1 %>" style="height:200px;object-fit:cover;border-radius:0.4rem;">
+                            </div>
+                            <% }) %>
+                        </div>
+                        <button class="carousel-control-prev" type="button" data-bs-target="#carousel-produs" data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Anterior</span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#carousel-produs" data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Următor</span>
+                        </button>
+                        <div class="carousel-indicators" style="position:static;margin-top:0.5rem;">
+                            <% imaginiProdus.forEach((img, idx) => { %>
+                            <button type="button" data-bs-target="#carousel-produs" data-bs-slide-to="<%= idx %>" class="<%= idx === 0 ? 'active' : '' %>" aria-label="Imaginea <%= idx+1 %>"></button>
+                            <% }) %>
+                        </div>
+                    </div>
+                    <% } else { %>
+                    <img src="<%= produs.imagine %>" alt="<%= produs.nume %>" style="max-width:320px;border-radius:0.4rem;">
+                    <% } %>
                     <p><strong>Categorie:</strong> <%= produs.categorie_mare %></p>
                     <p><strong>Pret:</strong> <%= produs.pret %> EUR</p>
                 </div>
                 <div class="col-right">
-                    <details>
-                        <summary>Specificații</summary>
-                        <ul>
-                            <li><strong>Subcategorie:</strong> <i><%= produs.subcategorie %></i></li>
-                            <li><strong>Caracteristici multiple:</strong> <i><%= produs.caracteristici_multiple %></i></li>
-                            <li><strong>Putere (CP):</strong> <i><%= produs.putere_cp %></i></li>
-                            <li><strong>Data adăugare:</strong> <i><time><%= produs.formattedDate %></time></i></li>
-                            <li><strong>Culoare:</strong> <i><%= produs.culoare %></i></li>
-                            <li><strong>In stoc:</strong> <i><%= produs.in_stoc ? 'Da' : 'Nu' %></i></li>
-                        </ul>
-                    </details>
-                    <p class="descr">
-                        <%= produs.descriere %>
-                    </p>
+                    <div class="accordion accordion-flush mb-3" id="acc-produs">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#acc-produs-spec" aria-expanded="false" aria-controls="acc-produs-spec">Specificații</button>
+                            </h2>
+                            <div id="acc-produs-spec" class="accordion-collapse collapse">
+                                <div class="accordion-body">
+                                    <ul class="list-unstyled mb-0">
+                                        <li><strong>Subcategorie:</strong> <i><%= produs.subcategorie %></i></li>
+                                        <li><strong>Caracteristici multiple:</strong> <i><%= produs.caracteristici_multiple %></i></li>
+                                        <li><strong>Putere (CP):</strong> <i><%= produs.putere_cp %></i></li>
+                                        <li><strong>Data adăugare:</strong> <i><time><%= produs.formattedDate %></time></i></li>
+                                        <li><strong>Culoare:</strong> <i><%= produs.culoare %></i></li>
+                                        <li><strong>In stoc:</strong> <i><%= produs.in_stoc ? 'Da' : 'Nu' %></i></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#acc-produs-desc" aria-expanded="false" aria-controls="acc-produs-desc">Descriere</button>
+                            </h2>
+                            <div id="acc-produs-desc" class="accordion-collapse collapse">
+                                <div class="accordion-body">
+                                    <p class="descr mb-0"><%= produs.descriere %></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <div class="mt-2">
                         <button class="btn btn-outline-primary btn-sm btn-compare" data-id="<%= produs.id %>" data-name="<%= produs.nume %>"><i class="bi bi-link-45deg"></i> Compară</button>
                     </div>
@@ -38,16 +81,19 @@
             </div>
         </article>
             <% if (typeof similare !== 'undefined' && similare.length) { %>
-            <section class="similar-products">
-                <h3>Produse similare</h3>
-                <div class="row">
+            <section class="similar-products mt-4">
+                <h3>Produse similare (din categoria <em><%= produs.categorie_mare %></em>)</h3>
+                <div class="row g-3">
                     <% similare.forEach(s => { %>
                         <div class="col-6 col-md-3">
-                            <div class="card">
-                                <img src="<%= s.imagine %>" class="card-img-top" alt="<%= s.nume %>">
-                                <div class="card-body">
-                                    <h5 class="card-title"><a href="/produs/<%= s.id %>"><%= s.nume %></a></h5>
-                                    <p class="card-text"><%= s.pret %> EUR</p>
+                            <div class="card h-100">
+                                <a href="/produs/<%= s.id %>">
+                                    <img src="<%= s.imagine %>" class="card-img-top" alt="<%= s.nume %>" style="height:130px;object-fit:cover;">
+                                </a>
+                                <div class="card-body p-2">
+                                    <h5 class="card-title" style="font-size:0.95rem;"><a href="/produs/<%= s.id %>"><%= s.nume %></a></h5>
+                                    <p class="card-text mb-0 small"><strong><%= s.pret %> EUR</strong></p>
+                                    <p class="card-text small text-muted"><%= s.subcategorie %> &bull; <%= s.putere_cp %> CP</p>
                                 </div>
                             </div>
                         </div>
@@ -55,7 +101,59 @@
                 </div>
             </section>
             <% } %>
+            <% if (typeof seturiProdus !== 'undefined' && seturiProdus.length) { %>
+            <section class="seturi-produs mt-4">
+                <h3>Seturi care conțin acest produs</h3>
+                <div class="row g-3">
+                    <% seturiProdus.forEach(s => { %>
+                    <div class="col-12 col-md-6">
+                        <div class="card border-primary">
+                            <div class="card-header bg-primary text-white"><%= s.nume %> &mdash; <strong><%= s.price %> EUR</strong> <span class="badge bg-warning text-dark">-<%= s.reduc %>%</span></div>
+                            <div class="card-body p-2">
+                                <p class="card-text small text-muted mb-1"><%= s.descriere %></p>
+                                <ul class="list-unstyled mb-0">
+                                    <% s.produseSet.forEach(sp => { %>
+                                    <li class="d-flex align-items-center gap-2 mb-1">
+                                        <a href="/produs/<%= sp.id %>">
+                                            <img src="<%= sp.imagine %>" alt="<%= sp.nume %>" style="width:50px;height:36px;object-fit:cover;border-radius:0.2rem;">
+                                        </a>
+                                        <a href="/produs/<%= sp.id %>"><%= sp.nume %></a>
+                                        <span class="ms-auto text-muted small"><%= sp.pret %> EUR</span>
+                                    </li>
+                                    <% }) %>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <% }) %>
+                </div>
+            </section>
+            <% } %>
     </main>
     <%- include('../fragmente/footer') %>
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var ACC_KEY = 'accordion_produs_<%= produs.id %>_state';
+        function loadState() { try { return JSON.parse(localStorage.getItem(ACC_KEY) || '{}'); } catch(e) { return {}; } }
+        function saveState(id, open) { var s = loadState(); s[id] = open; localStorage.setItem(ACC_KEY, JSON.stringify(s)); }
+        // Restore saved open/close state
+        var state = loadState();
+        ['acc-produs-spec', 'acc-produs-desc'].forEach(function(id) {
+            if (state[id]) {
+                var el = document.getElementById(id);
+                if (el && window.bootstrap) {
+                    try { new bootstrap.Collapse(el, { toggle: false }).show(); } catch(e) {}
+                }
+            }
+        });
+        // Save state on open/close
+        document.addEventListener('show.bs.collapse', function(e) { saveState(e.target.id, true); });
+        document.addEventListener('hide.bs.collapse', function(e) { saveState(e.target.id, false); });
+        // Set last visited product cookie (7 days)
+        var prodVal = <%- JSON.stringify(produs.id + ':' + produs.nume) %>;
+        var d = new Date(); d.setTime(d.getTime() + 7*24*60*60*1000);
+        document.cookie = 'ultimulProdus=' + encodeURIComponent(prodVal) + '; expires=' + d.toUTCString() + '; path=/';
+    });
+    </script>
 </body>
 </html>

@@ -1,20 +1,34 @@
+<%
+/* orar data: 0=Duminica,1=Luni,...,6=Sambata */
+const orarZile = [
+  { zi: 'Luni',      start: 9,  end: 17 },
+  { zi: 'Marți',     start: 9,  end: 17 },
+  { zi: 'Miercuri',  start: 9,  end: 17 },
+  { zi: 'Joi',       start: 9,  end: 17 },
+  { zi: 'Vineri',    start: 9,  end: 17 },
+  { zi: 'Sâmbătă',   start: 10, end: 14 },
+  { zi: 'Duminică',  start: null, end: null }
+]; // index 0 = Luni (js day 1)
+%>
 <div id="orar-overlay" style="display:none;position:fixed;inset:0;z-index:2200;align-items:center;justify-content:center;">
-  <div style="position:absolute;inset:0;background:rgba(0,0,0,0.5);"></div>
-  <div style="background:var(--zone-bg);color:var(--text-color);padding:1rem;border-radius:0.6rem;max-width:600px;z-index:2210;">
-    <button id="orar-close" class="btn-close float-end"></button>
-    <h4>Orar</h4>
-    <table class="table table-sm">
-      <thead><tr><th>Zi</th><th>Interval</th></tr></thead>
+  <div style="position:absolute;inset:0;background:rgba(0,0,0,0.55);"></div>
+  <div style="background:var(--zone-bg);color:var(--text-color);padding:1.2rem;border-radius:0.7rem;max-width:420px;width:94%;z-index:2210;position:relative;">
+    <button id="orar-close" class="btn-close float-end" aria-label="Închide"></button>
+    <h4 class="mb-3"><i class="bi bi-clock-history me-2"></i>Orar DUM AUTO</h4>
+    <table class="table table-sm table-bordered" id="orar-table">
+      <thead class="table-dark"><tr><th>Zi</th><th>Interval</th></tr></thead>
       <tbody>
-        <tr><td>Luni</td><td>09:00 - 17:00</td></tr>
-        <tr><td>Marti</td><td>09:00 - 17:00</td></tr>
-        <tr><td>Miercuri</td><td>09:00 - 17:00</td></tr>
-        <tr><td>Joi</td><td>09:00 - 17:00</td></tr>
-        <tr><td>Vineri</td><td>09:00 - 17:00</td></tr>
-        <tr><td>Sambata</td><td>10:00 - 14:00</td></tr>
-        <tr><td>Duminica</td><td>Inchis</td></tr>
+        <% orarZile.forEach(function(row, idx) {
+            /* JS day: 0=Sun,1=Mon...6=Sat; our idx: 0=Mon..5=Sat,6=Sun */
+        %>
+        <tr class="orar-row" data-idx="<%= idx %>">
+          <td><%= row.zi %></td>
+          <td><% if (row.start !== null) { %><%= String(row.start).padStart(2,'0') %>:00 – <%= String(row.end).padStart(2,'0') %>:00<% } else { %>Închis<% } %></td>
+        </tr>
+        <% }); %>
       </tbody>
     </table>
-    <div id="orar-status" class="mt-2"></div>
+    <div id="orar-status" class="mt-2 fw-bold"></div>
+    <p class="text-muted small mt-1 mb-0">Se închide automat în <span id="orar-countdown">10</span>s</p>
   </div>
 </div>

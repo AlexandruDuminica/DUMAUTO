@@ -11,31 +11,79 @@
         <span class="bar"></span>
     </label>
     <nav>
-        <ul>
+        <ul class="main-menu">
             <li>
-                <a href="/">Acasă</a>
+                <a href="/">
+                    <span class="menu-icon"><i class="fa-solid fa-house"></i></span>
+                    <span class="menu-label">Acasă</span>
+                </a>
                 <ul class="submenu">
-                    <li><a href="/#zona1">Despre Conceptul Nostru</a></li>
-                    <li><a href="/#zona8">Modele și Oferte</a></li>
+                    <li><a href="/#zona1"><span class="menu-label">Despre Conceptul Nostru</span></a></li>
+                    <li><a href="/#zona8"><span class="menu-label">Modele și Oferte</span></a></li>
                 </ul>
             </li>
-            <li><a href="/despre">Istoric și Descriere (Nou)</a></li>
-            <li><a href="/catalog">Catalog și Configurator</a></li>
-            <li><a href="/service">Garanție și Service</a></li>
             <li>
-                <a href="/produse">Produse</a>
+                <a href="/despre">
+                    <span class="menu-icon"><i class="fa-solid fa-circle-info"></i></span>
+                    <span class="menu-label">Istoric</span>
+                </a>
+            </li>
+            <li>
+                <a href="/galerie">
+                    <span class="menu-icon"><i class="fa-solid fa-images"></i></span>
+                    <span class="menu-label">Galerie</span>
+                </a>
+            </li>
+            <li>
+                <a href="/catalog">
+                    <span class="menu-icon"><i class="fa-solid fa-list-check"></i></span>
+                    <span class="menu-label">Catalog</span>
+                </a>
+            </li>
+            <li>
+                <a href="/service">
+                    <span class="menu-icon"><i class="fa-solid fa-tools"></i></span>
+                    <span class="menu-label">Service</span>
+                </a>
+            </li>
+            <li>
+                <a href="/produse">
+                    <span class="menu-icon"><i class="fa-solid fa-car-side"></i></span>
+                    <span class="menu-label">Produse</span>
+                </a>
                 <ul class="submenu">
-                    <li><a href="/produse">Toate</a></li>
+                    <li><a href="/produse"><span class="menu-label">Toate</span></a></li>
                     <% if (typeof produseCategs !== 'undefined' && produseCategs && produseCategs.length) { %>
                         <% produseCategs.forEach(function(c){ %>
-                            <li><a href="/produse?categ=<%= c %>"><%= c %></a></li>
+                            <li><a href="/produse?categ=<%= c %>"><span class="menu-label"><%= c %></span></a></li>
                         <% }) %>
                     <% } %>
                 </ul>
             </li>
-            <li><a href="/seturi">Seturi</a></li>
-            <li><a href="#" id="open-orar">Orar</a></li>
+            <li>
+                <a href="/seturi">
+                    <span class="menu-icon"><i class="fa-solid fa-box-open"></i></span>
+                    <span class="menu-label">Seturi</span>
+                </a>
+            </li>
+            <li>
+                <a href="#" id="open-orar">
+                    <span class="menu-icon"><i class="fa-solid fa-clock"></i></span>
+                    <span class="menu-label">Orar</span>
+                </a>
+            </li>
         </ul>
     </nav>
     <%- include('orar') %>
+    <div id="user-info">
+        <span>IP: <strong><%= typeof userIP !== 'undefined' ? userIP : '' %></strong></span>
+    </div>
+    <div class="theme-switch-header">
+        <label for="theme-select-global" class="form-label small mb-0 me-1">Temă:</label>
+        <select id="theme-select-global" class="form-select form-select-sm" style="width:auto;display:inline-block;">
+            <option value="light">☀️ Luminoasă</option>
+            <option value="dark">🌙 Întunecată</option>
+            <option value="forest">🌿 Pădure</option>
+        </select>
+    </div>
 </header>

@@ -10,7 +10,11 @@
     { "cale_relativa": "img7.jpg", "nume": "Faruri LED", "descriere": "Iluminare nocturnă", "timp": "noapte" },
     { "cale_relativa": "img8.jpg", "nume": "Stopuri", "descriere": "Design nocturn", "timp": "noapte" },
     { "cale_relativa": "img9.jpg", "nume": "Ambianță", "descriere": "Lumini interioare", "timp": "noapte" },
-    { "cale_relativa": "img10.jpg", "nume": "Răsărit", "descriere": "Mașina la răsărit", "timp": "dimineata" },
-    { "cale_relativa": "img11.jpg", "nume": "Ceață", "descriere": "Drum matinal", "timp": "dimineata" }
+    { "cale_relativa": "car1.jpg", "nume": "Răsărit", "descriere": "Mașina la răsărit", "timp": "dimineata" },
+    { "cale_relativa": "car2.jpg", "nume": "Ceață", "descriere": "Drum matinal", "timp": "dimineata" },
+    { "cale_relativa": "car3.jpg", "nume": "Dimineață Urbană", "descriere": "Oraș la prima oră", "timp": "dimineata" },
+    { "cale_relativa": "car4.jpg", "nume": "Lumina Aurie", "descriere": "Golden hour", "timp": "dimineata" },
+    { "cale_relativa": "car5.jpg", "nume": "Start Zi", "descriere": "Gata de drum", "timp": "dimineata" },
+    { "cale_relativa": "car6.jpg", "nume": "Proaspăt Dimineață", "descriere": "Rouă pe caroserie", "timp": "dimineata" }
   ]
 }

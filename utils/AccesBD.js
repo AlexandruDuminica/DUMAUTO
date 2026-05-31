@@ -68,7 +68,11 @@ class AccesBD {
     return res.rows;
   }
 
-  /** update */
+  /**
+   * Actualizează rânduri dintr-un tabel.
+   * @param {{table:string, fields:string[], values:any[], where:string[]}} obiect
+   * @param {(err:any, rowCount:number)=>void} callback
+   */
   update(obiect, callback) {
     const pool = this.client; if (!pool) return callback(new Error('DB not initialized'));
     const sets = obiect.fields.map((f,i)=>`${f}=$${i+1}`).join(',');
@@ -77,7 +81,11 @@ class AccesBD {
     pool.query(q, obiect.values, (err,res)=>{ if (err) return callback(err); callback(null,res.rowCount); });
   }
 
-  /** insert */
+  /**
+   * Inserează o înregistrare nouă în tabel.
+   * @param {{table:string, fields:string[], values:any[]}} obiect
+   * @param {(err:any, row:Object)=>void} callback
+   */
   insert(obiect, callback) {
     const pool = this.client; if (!pool) return callback(new Error('DB not initialized'));
     const fields = obiect.fields.join(',');
@@ -87,7 +95,11 @@ class AccesBD {
     pool.query(q, vals, (err,res)=>{ if (err) return callback(err); callback(null,res.rows[0]); });
   }
 
-  /** delete */
+  /**
+   * Șterge rânduri dintr-un tabel conform condițiilor date.
+   * @param {{table:string, where:string[]}} obiect
+   * @param {(err:any, rowCount:number)=>void} callback
+   */
   delete(obiect, callback) {
     const pool = this.client; if (!pool) return callback(new Error('DB not initialized'));
     const whereClause = obiect.where && obiect.where.length ? buildWhereClause(obiect.where) : '1=1';

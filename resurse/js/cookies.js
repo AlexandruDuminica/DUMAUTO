@@ -48,67 +48,35 @@ function deleteAllCookies() {
   });
 }
 
-document.addEventListener('DOMContentLoaded', ()=>{
-  // cookie banner markup
+document.addEventListener('DOMContentLoaded', () => {
   const bannerId = 'cookie-banner';
   if (!document.getElementById(bannerId)) {
     const div = document.createElement('div');
     div.id = bannerId;
-    div.innerHTML = `<div id="cb-inner" style="width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;color:var(--text-color)"><div style="font-size:1.2rem;margin-bottom:0.5rem">Acceptați cookie-uri?</div><button id="cb-ok" class="btn btn-sm btn-primary">Ok</button></div>`;
-    // style and positioning
-    div.style.position = 'fixed';
-    div.style.left = '0';
-    div.style.bottom = '0';
-    div.style.zIndex = '9999';
-    // size: 25% of width
-    const width = Math.max(200, Math.floor(window.innerWidth * 0.25));
-    div.style.width = width + 'px';
-    div.style.height = width + 'px';
-    div.style.background = 'rgba(30,58,138,0)';
-    div.style.opacity = '0';
-    div.style.display = 'none';
-    div.style.borderRadius = '6px 0 0 0';
+    div.innerHTML = '<p>Acesta este un proiect \u0219colar.<br>Accept\u0103\u021bi cookie-urile de pe site?</p>'
+                  + '<button id="cb-ok" class="btn btn-sm btn-light">Ok</button>';
     document.body.appendChild(div);
 
-    // show animation on large screens only
-    function showBanner() {
-      if (window.matchMedia('(min-width: 992px)').matches) {
-        div.style.display = 'block';
-        div.animate([
-          { transform: 'scale(0)', opacity: 0, background: 'rgba(30,58,138,0)' },
-          { transform: 'scale(1)', opacity: 0.75, background: 'rgba(30,58,138,0.75)' }
-        ], { duration: 5000, fill: 'forwards', easing: 'ease-out' });
-      } else {
-        // static on medium/small
-        div.style.display = 'block';
-        div.style.opacity = '0.75';
-        div.style.background = 'rgba(30,58,138,0.75)';
-      }
-    }
-
-    // check cookie
     const accepted = getCookie('cookie_banner_accepted');
     if (!accepted) {
-      // show banner after short delay
-      setTimeout(showBanner, 300);
+      // small delay so the animation starts after paint
+      setTimeout(() => { div.classList.add('cb-animated'); }, 300);
     }
 
-    document.addEventListener('click', (e)=>{
+    document.addEventListener('click', (e) => {
       if (e.target && e.target.id === 'cb-ok') {
         setCookie('cookie_banner_accepted', '1', 7); // 7 days
-        const el = document.getElementById(bannerId);
-        if (el) el.style.display = 'none';
+        div.style.display = 'none';
       }
     });
   }
 
-  // set a cookie for last filters from products page if present in localStorage
+  // Cookie: save last filter state when on products page
   if (window.location.pathname === '/produse') {
-    // try to read filters from localStorage
     const filters = localStorage.getItem('produse_filters');
     if (filters) setCookie('ultimeFiltre', filters, 7);
   }
 });
 
-// expose helpers
+// expose helpers globally
 window.myCookies = { setCookie, getCookie, deleteCookie, deleteAllCookies };

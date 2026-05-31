@@ -1,0 +1,84 @@
+[33mcommit 74b20ba0b017aee78bf5dea44174be68ab9cd168[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m)[m
+Author: AlexandruDuminica <danut-alexandru.duminica@s.unibuc.ro>
+Date:   Mon May 25 19:10:55 2026 +0300
+
+    Fix: serve root favicons to prevent express attempting to render static files as views
+
+[33mcommit 88d841bcc20c4eb64726faba1f21f434ee8fba53[m
+Author: AlexandruDuminica <danut-alexandru.duminica@s.unibuc.ro>
+Date:   Mon May 25 19:02:02 2026 +0300
+
+    Fix: avoid continuous reload by polling /api/oferte before reload
+
+[33mcommit e65834ea33afc031987239ac9934af10780b541f[m
+Author: AlexandruDuminica <danut-alexandru.duminica@s.unibuc.ro>
+Date:   Mon May 25 17:58:32 2026 +0300
+
+    random save
+
+[33mcommit 5443b5ff9c1bb0cb875a480c8a5d6983cdae5ff4[m
+Author: AlexandruDuminica <danut-alexandru.duminica@s.unibuc.ro>
+Date:   Mon May 25 17:31:40 2026 +0300
+
+    Ignore node_modules
+
+[33mcommit 94a162b21c726d3632e6303cc8985aeb877ed624[m[33m ([m[1;31morigin/main[m[33m)[m
+Author: AlexandruDuminica <danut-alexandru.duminica@s.unibuc.ro>
+Date:   Mon May 25 17:25:15 2026 +0300
+
+    ETAPA 7 BONUSURI FINAL
+
+[33mcommit 886af2c9c767efe72ec57d6728ff5b7f08f08fd7[m
+Author: AlexandruDuminica <danut-alexandru.duminica@s.unibuc.ro>
+Date:   Sat May 23 23:24:42 2026 +0300
+
+    ETAPA 7 CU BONUSURI
+
+[33mcommit 229243a2d543b444a3615af4a469954bfaa62a93[m
+Author: AlexandruDuminica <danut-alexandru.duminica@s.unibuc.ro>
+Date:   Sat May 23 23:23:56 2026 +0300
+
+    ETAPA 7 CU BONUSURI
+
+[33mcommit 14f2e15b6383608010238d1bfd433b4ce4633bd4[m
+Author: AlexandruDuminica <danut-alexandru.duminica@s.unibuc.ro>
+Date:   Sat May 23 20:39:24 2026 +0300
+
+    ETAPA 6 CU BONUSURI
+
+[33mcommit b6691dbc169930fb1937d04abc65928280730aa7[m
+Author: AlexandruDuminica <danut-alexandru.duminica@s.unibuc.ro>
+Date:   Mon Apr 27 12:49:38 2026 +0300
+
+    Etapa 5
+
+[33mcommit 998f916f26aef84ea2fa57a62316882794a41aa3[m
+Merge: 88791c9 d066468
+Author: AlexandruDuminica <danut-alexandru.duminica@s.unibuc.ro>
+Date:   Mon Apr 27 12:40:54 2026 +0300
+
+    ETAPA 5
+
+[33mcommit 88791c9562c835e6be0fbbc5ccd00bea18c2c2d3[m
+Author: AlexandruDuminica <danut-alexandru.duminica@s.unibuc.ro>
+Date:   Mon Apr 20 23:30:10 2026 +0300
+
+    Etapa 4
+
+[33mcommit d0664680d0d63c37438c3b206fd1df59b7e84e14[m
+Author: AlexandruDuminica <danut-alexandru.duminica@s.unibuc.ro>
+Date:   Mon Mar 23 20:35:35 2026 +0200
+
+    readme
+
+[33mcommit 43bde705987818dcf91517c8a5436c5870d66498[m
+Author: AlexandruDuminica <danut-alexandru.duminica@s.unibuc.ro>
+Date:   Mon Mar 23 20:30:35 2026 +0200
+
+    Upload Etapa 1, Etapa 2 si Etapa 3 complete
+
+[33mcommit 998ee5e76014dfd454f31e62aada15d4f070ae37[m
+Author: AlexandruDuminica <danut-alexandru.duminica@s.unibuc.ro>
+Date:   Mon Mar 23 19:27:42 2026 +0200
+
+    Etapa 1

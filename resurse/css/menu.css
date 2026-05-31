@@ -1,0 +1,187 @@
+.main-menu > li > a {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+nav {
+  --menu-item-radius: 0.5rem;
+  --menu-bar-height: 0.7rem;
+  --menu-submenu-min-width: 12rem;
+  --menu-hover-bg: var(--primary);
+  --menu-hover-color: var(--zone-bg);
+  --menu-submenu-padding: 0.4rem 0;
+  --menu-link-padding: 0.5rem 0.9rem;
+}
+
+.main-menu {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  gap: 0.2rem;
+  align-items: center;
+}
+.main-menu > li {
+  position: relative;
+}
+.main-menu > li > a {
+  padding: var(--menu-link-padding);
+  height: 3.6rem;
+  border-radius: var(--menu-item-radius);
+  color: var(--text-color);
+  text-decoration: none;
+  position: relative;
+  overflow: visible;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+.main-menu > li > a::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: var(--menu-bar-height);
+  border-radius: 0.45rem;
+  background: linear-gradient(to right, transparent 0%, transparent 50%, var(--primary) 50%, var(--primary) 100%);
+  background-size: 200% 100%;
+  background-position: 0% 0%;
+  transform: translateY(-50%);
+  transition: background-position 0.55s cubic-bezier(0.2, 0.9, 0.2, 1);
+  z-index: -1;
+}
+.main-menu > li > a:hover::before {
+  background-position: 100% 0%;
+}
+.main-menu > li > a .menu-icon {
+  color: var(--primary);
+}
+.main-menu > li > a .menu-label {
+  font-weight: 600;
+}
+.main-menu > li > .submenu {
+  list-style: none;
+  margin: 0;
+  padding: var(--menu-submenu-padding);
+  position: absolute;
+  top: calc(3.6rem + 0.6rem);
+  left: 0;
+  min-width: var(--menu-submenu-min-width);
+  background: var(--zone-bg);
+  border: var(--zone-border);
+  border-radius: var(--menu-item-radius);
+  box-shadow: var(--zone-shadow);
+  transform: scaleY(0);
+  transform-origin: center;
+  transition: transform 0.35s ease;
+  overflow: hidden;
+  z-index: 40;
+}
+.main-menu > li > .submenu li {
+  margin: 0;
+}
+.main-menu > li > .submenu a {
+  display: block;
+  padding: var(--menu-link-padding);
+  color: var(--text-color);
+  transition: background-color 0.25s ease, color 0.25s ease;
+}
+.main-menu > li:hover > .submenu {
+  transform: scaleY(1);
+}
+.main-menu > li .submenu a:hover {
+  background: var(--menu-hover-bg);
+  color: var(--menu-hover-color);
+}
+
+.main-menu > li:nth-child(1) > a::before {
+  opacity: 0.9;
+}
+
+.main-menu > li:nth-child(2) > a::before {
+  opacity: 0.85;
+}
+
+.main-menu > li:nth-child(3) > a::before {
+  opacity: 0.8;
+}
+
+.main-menu > li:nth-child(4) > a::before {
+  opacity: 0.75;
+}
+
+.main-menu > li:nth-child(5) > a::before {
+  opacity: 0.7;
+}
+
+.main-menu > li:nth-child(6) > a::before {
+  opacity: 0.65;
+}
+
+@media (min-width: 700px) and (max-width: 999px) {
+  .main-menu > li > a {
+    padding: 0.4rem;
+  }
+  .main-menu > li > a .menu-label {
+    display: none;
+  }
+  .main-menu > li > a::before {
+    display: none;
+  }
+  .main-menu > li > a:hover {
+    background: var(--menu-hover-bg);
+    color: var(--menu-hover-color);
+  }
+  .main-menu > li > .submenu {
+    transform: rotateX(-15deg) scaleY(0);
+    transform-origin: center top;
+    opacity: 0;
+    transition: transform 0.45s ease, opacity 0.4s ease;
+  }
+  .main-menu > li:hover > .submenu {
+    transform: rotateX(0deg) scaleY(1);
+    opacity: 1;
+  }
+}
+@media (max-width: 699px) {
+  nav {
+    display: none;
+  }
+  #menu-toggle:checked ~ nav {
+    display: block;
+  }
+  .main-menu {
+    flex-direction: column;
+    gap: 0;
+  }
+  .main-menu > li {
+    width: 100%;
+  }
+  .main-menu > li > a {
+    padding: 0.8rem 1rem;
+  }
+  .main-menu > li > a:hover {
+    background: var(--menu-hover-bg);
+    color: var(--menu-hover-color);
+  }
+  .main-menu > li:first-child > a .menu-label {
+    display: none;
+  }
+  .main-menu > li > .submenu {
+    position: relative;
+    top: 0;
+    left: 0;
+    transform: rotateX(-20deg) scaleY(0);
+    transform-origin: center top;
+    opacity: 0;
+    transition: transform 0.45s ease, opacity 0.45s ease;
+    margin-left: 0.5rem;
+  }
+  #menu-toggle:checked ~ nav .main-menu > li > .submenu {
+    transform: rotateX(0) scaleY(1);
+    opacity: 1;
+  }
+  .main-menu a::before {
+    display: none;
+  }
+}

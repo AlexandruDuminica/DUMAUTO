@@ -11,11 +11,7 @@
     <%- include('../fragmente/header') %>
 
     <main class="grid-layout">
-        <% if (currentOffer) { %>
-        <section class="offer-home">
-            <div class="alert alert-info">Oferta curenta: <strong><%= currentOffer.categorie %></strong> - <%= currentOffer.reducere %>% reducere. Expira in <span id="timer-home">...</span></div>
-        </section>
-        <% } %>
+        <!-- offer-home moved into zona2 to avoid floating card and fill empty space -->
         <% if (lastVisitedProduct) { %>
         <section class="last-visited">
             <div class="alert alert-secondary">Ultimul produs vizitat: <strong><%= lastVisitedProduct %></strong></div>
@@ -61,19 +57,21 @@
                             <td>42.000</td>
                         </tr>
                         <tr>
-                            <td rowspan="2">Hatchback Urban</td>
-                            <td>Benzină</td>
-                            <td>Rulat (2024)</td>
+                            <td>Hatchback Urban</td>
+                            <td class="cell-benzina">Benzină</td>
+                            <td class="cell-rulat2025">Rulat (2024)</td>
                             <td>14.000</td>
                         </tr>
                         <tr>
-                            <td>Electric</td>
-                            <td>Rulat (2025)</td>
+                            <td>Hatchback Urban Electric</td>
+                            <td class="cell-electric">Electric</td>
+                            <td class="cell-nou">Nou</td>
                             <td>19.000</td>
                         </tr>
                         <tr>
                             <td>Sport Coupe</td>
-                            <td colspan="2">Configurabil doar pe bază de precomandă</td>
+                            <td class="cell-benzina">Benzină</td>
+                            <td class="cell-nou">Nou</td>
                             <td>55.000</td>
                         </tr>
                     </tbody>
@@ -85,6 +83,21 @@
                     </tfoot>
                 </table>
             </div>
+            <% /* move offer into zona2 under the table to fill empty space */ %>
+            <% if (currentOffer) { %>
+            <section class="offer-home mt-3">
+                <div class="alert alert-warning d-flex align-items-center gap-3" role="alert" id="oferta-banner-home">
+                    <i class="bi bi-megaphone-fill fs-3 text-danger"></i>
+                    <div>
+                        <strong class="d-block">🔥 Ofertă Specială DUM AUTO!</strong>
+                        Categorie: <strong><%= currentOffer.categorie %></strong> &mdash;
+                        <span class="badge bg-danger fs-6"><%= currentOffer.reducere %>% REDUCERE</span>
+                        <br>
+                        Expiră în: <strong><span id="timer-home">...</span></strong>
+                    </div>
+                </div>
+            </section>
+            <% } %>
         </section>
 
         <section id="zona3">
@@ -229,7 +242,7 @@
         </section>
 
         <section id="efecte-noi">
-            <h2 class="reflexie-text">Performanță Auto</h2>
+            <h2 class="reflexie-text" data-text="Performanță Auto">Performanță Auto</h2>
             
             <div class="multi-column">
                 <p>Bine ați venit la DUM AUTO, dealerul dumneavoastră de încredere pentru autoturisme premium. Ne mândrim cu o selecție vastă de vehicule, de la sedanuri elegante la SUV-uri robuste, toate fiind verificate riguros din punct de vedere tehnic și vizual înainte de a ajunge la clienți. Prin platforma noastră complet digitalizată, aveți posibilitatea să explorați modelele preferate direct din confortul casei, să configurați dotările dorite cu doar câteva click-uri și chiar să programați un test drive virtual interactiv.</p>
@@ -242,9 +255,44 @@
             <div class="duotone-container"></div>
         </section>
 
+        <% if (typeof produseNoi !== 'undefined' && produseNoi.length) { %>
+        <section id="sectiune-produse-noi">
+            <h2>🆕 Produse Noi</h2>
+            <p class="text-muted">Cele mai recente adăugiri în portofoliul DUM AUTO:</p>
+            <div class="row g-3">
+                <% produseNoi.forEach(p => { %>
+                <div class="col-6 col-md-3">
+                    <div class="card h-100 border-info">
+                        <a href="/produs/<%= p.id %>">
+                            <img src="<%= p.imagine %>" class="card-img-top" alt="<%= p.nume %>" style="height:110px;object-fit:cover;">
+                        </a>
+                        <div class="card-body p-2">
+                            <span class="badge bg-info text-dark mb-1">NOU</span>
+                            <a href="/produs/<%= p.id %>" class="d-block fw-semibold"><%= p.nume %></a>
+                            <span class="small text-muted"><%= p.pret %> EUR</span>
+                        </div>
+                    </div>
+                </div>
+                <% }) %>
+            </div>
+        </section>
+        <% } %>
+
         <section id="sectiune-galerie">
             <h2>Galerie Foto Auto</h2>
             <%- include('../fragmente/galerie') %>
+            <% if (typeof galerieAnimata !== 'undefined' && galerieAnimata.length > 0) { %>
+            <h3>Galerie Animată</h3>
+            <div class="galerie-animata-wrapper">
+                <div class="galerie-animata-inner">
+                    <% galerieAnimata.forEach(function(img) { %>
+                    <div class="galerie-animata-item">
+                        <img src="<%= img.cale_mare %>" alt="<%= img.nume %>" title="<%= img.descriere %>">
+                    </div>
+                    <% }); %>
+                </div>
+            </div>
+            <% } %>
         </section>
     </main>
 

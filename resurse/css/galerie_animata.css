@@ -1,0 +1,266 @@
+.galerie-animata-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 500px;
+  height: 300px;
+  margin: 2rem auto;
+  perspective: 1200px;
+  border: 12px solid transparent;
+  border-image: url("/resurse/imagini/masina-desktop.jpg") 30 round;
+}
+@media (max-width: 999px) {
+  .galerie-animata-wrapper {
+    display: none;
+  }
+}
+.galerie-animata-wrapper:hover .galerie-animata-item {
+  animation-play-state: paused;
+}
+
+.galerie-animata-inner {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+.galerie-animata-item {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transform: rotateX(90deg);
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+}
+.galerie-animata-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 0;
+  margin: 0;
+}
+
+@keyframes galerie-anim-1 {
+  2.1428571429% {
+    opacity: 1;
+    transform: rotateX(0deg) scaleY(1);
+  }
+  8.5714285714% {
+    opacity: 1;
+    transform: rotateX(0deg) scaleY(1);
+  }
+  11.4285714286% {
+    opacity: 1;
+    transform: rotateX(0deg) scaleY(0);
+  }
+  14.2857142857% {
+    opacity: 0;
+    transform: rotateY(-90deg) scaleY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: rotateX(90deg);
+  }
+}
+.galerie-animata-item:nth-child(1) {
+  animation: galerie-anim-1 21s linear infinite;
+}
+
+@keyframes galerie-anim-2 {
+  0% {
+    opacity: 0;
+    transform: rotateX(90deg);
+  }
+  14.2857142857% {
+    opacity: 0;
+    transform: rotateX(90deg);
+  }
+  16.4285714286% {
+    opacity: 1;
+    transform: rotateX(0deg) scaleY(1);
+  }
+  22.8571428571% {
+    opacity: 1;
+    transform: rotateX(0deg) scaleY(1);
+  }
+  25.7142857143% {
+    opacity: 1;
+    transform: rotateX(0deg) scaleY(0);
+  }
+  28.5714285714% {
+    opacity: 0;
+    transform: rotateY(-90deg) scaleY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: rotateX(90deg);
+  }
+}
+.galerie-animata-item:nth-child(2) {
+  animation: galerie-anim-2 21s linear infinite;
+}
+
+@keyframes galerie-anim-3 {
+  0% {
+    opacity: 0;
+    transform: rotateX(90deg);
+  }
+  28.5714285714% {
+    opacity: 0;
+    transform: rotateX(90deg);
+  }
+  30.7142857143% {
+    opacity: 1;
+    transform: rotateX(0deg) scaleY(1);
+  }
+  37.1428571429% {
+    opacity: 1;
+    transform: rotateX(0deg) scaleY(1);
+  }
+  40% {
+    opacity: 1;
+    transform: rotateX(0deg) scaleY(0);
+  }
+  42.8571428571% {
+    opacity: 0;
+    transform: rotateY(-90deg) scaleY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: rotateX(90deg);
+  }
+}
+.galerie-animata-item:nth-child(3) {
+  animation: galerie-anim-3 21s linear infinite;
+}
+
+@keyframes galerie-anim-4 {
+  0% {
+    opacity: 0;
+    transform: rotateX(90deg);
+  }
+  42.8571428571% {
+    opacity: 0;
+    transform: rotateX(90deg);
+  }
+  45% {
+    opacity: 1;
+    transform: rotateX(0deg) scaleY(1);
+  }
+  51.4285714286% {
+    opacity: 1;
+    transform: rotateX(0deg) scaleY(1);
+  }
+  54.2857142857% {
+    opacity: 1;
+    transform: rotateX(0deg) scaleY(0);
+  }
+  57.1428571429% {
+    opacity: 0;
+    transform: rotateY(-90deg) scaleY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: rotateX(90deg);
+  }
+}
+.galerie-animata-item:nth-child(4) {
+  animation: galerie-anim-4 21s linear infinite;
+}
+
+@keyframes galerie-anim-5 {
+  0% {
+    opacity: 0;
+    transform: rotateX(90deg);
+  }
+  57.1428571429% {
+    opacity: 0;
+    transform: rotateX(90deg);
+  }
+  59.2857142857% {
+    opacity: 1;
+    transform: rotateX(0deg) scaleY(1);
+  }
+  65.7142857143% {
+    opacity: 1;
+    transform: rotateX(0deg) scaleY(1);
+  }
+  68.5714285714% {
+    opacity: 1;
+    transform: rotateX(0deg) scaleY(0);
+  }
+  71.4285714286% {
+    opacity: 0;
+    transform: rotateY(-90deg) scaleY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: rotateX(90deg);
+  }
+}
+.galerie-animata-item:nth-child(5) {
+  animation: galerie-anim-5 21s linear infinite;
+}
+
+@keyframes galerie-anim-6 {
+  0% {
+    opacity: 0;
+    transform: rotateX(90deg);
+  }
+  71.4285714286% {
+    opacity: 0;
+    transform: rotateX(90deg);
+  }
+  73.5714285714% {
+    opacity: 1;
+    transform: rotateX(0deg) scaleY(1);
+  }
+  80% {
+    opacity: 1;
+    transform: rotateX(0deg) scaleY(1);
+  }
+  82.8571428571% {
+    opacity: 1;
+    transform: rotateX(0deg) scaleY(0);
+  }
+  85.7142857143% {
+    opacity: 0;
+    transform: rotateY(-90deg) scaleY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: rotateX(90deg);
+  }
+}
+.galerie-animata-item:nth-child(6) {
+  animation: galerie-anim-6 21s linear infinite;
+}
+
+@keyframes galerie-anim-7 {
+  0% {
+    opacity: 0;
+    transform: rotateX(90deg);
+  }
+  85.7142857143% {
+    opacity: 0;
+    transform: rotateX(90deg);
+  }
+  87.8571428571% {
+    opacity: 1;
+    transform: rotateX(0deg) scaleY(1);
+  }
+  94.2857142857% {
+    opacity: 1;
+    transform: rotateX(0deg) scaleY(1);
+  }
+  97.1428571429% {
+    opacity: 1;
+    transform: rotateX(0deg) scaleY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: rotateY(-90deg) scaleY(0);
+  }
+}
+.galerie-animata-item:nth-child(7) {
+  animation: galerie-anim-7 21s linear infinite;
+}

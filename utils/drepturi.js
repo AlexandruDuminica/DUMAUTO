@@ -1,5 +1,8 @@
 /**
- * Drepturi exported as Symbols
+ * Obiect cu toate drepturile posibile ale utilizatorilor în aplicație.
+ * Fiecare proprietate este un Symbol unic ce identifică un drept specific.
+ * Se folosesc în clasa Rol și Utilizator pentru verificarea accesului.
+ * @type {Object.<string, Symbol>}
  */
 const Drepturi = {
   VEZI_PRODUSE: Symbol('VEZI_PRODUSE'),
